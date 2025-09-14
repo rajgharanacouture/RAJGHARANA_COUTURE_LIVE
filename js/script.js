@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navbar scroll effect
     const navbar = document.getElementById('mainNavbar');
     const logo = document.getElementById('navbarLogo');
-    const navLinks = document.querySelectorAll('.nav-link');
+    //const navLinks = document.querySelectorAll('.nav-link');
     
     window.addEventListener('scroll', function() {
         const scrolled = window.scrollY > 50;
@@ -15,23 +15,23 @@ document.addEventListener('DOMContentLoaded', function() {
             logo.classList.add('logo-small');
             
             // Update nav links for scrolled state
-            navLinks.forEach(link => {
-                link.classList.add('scrolled-link');
-            });
+            //navLinks.forEach(link => {
+              //  link.classList.add('scrolled-link');
+            //});
         } else {
             //navbar.classList.remove('navbar-scrolled');
             logo.classList.remove('logo-small');
             logo.classList.add('logo-large');
             
             // Update nav links for normal state
-            navLinks.forEach(link => {
-                link.classList.remove('scrolled-link');
-            });
+            //navLinks.forEach(link => {
+                //link.classList.remove('scrolled-link');
+            //});
         }
     });
     
     // Smooth scrolling for navigation links
-    navLinks.forEach(link => {
+    /*navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-    });
+    });*/
     
     // Set initial active link
     const homeLink = document.querySelector('a[href="#home"]');
@@ -164,7 +164,7 @@ function initializeCarousels() {
     console.log('Carousel initialization ready');
     const slides = document.querySelector('.home-image');
     console.log('==>',slides);
-    const slideCount = 2;
+    const slideCount = 4;
     let currentIndex = 0;
     setInterval(autoSlide, 4000);
 

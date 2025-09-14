@@ -135,10 +135,6 @@ section {
     .Capturing-text {
         font-size: 14px;
     }
-
-    .product-actions {
-        flex-direction: column;
-    }
 }
 
 .btn-view {

@@ -1,0 +1,70 @@
+/* Navbar Styles */
+.custom-navbar {
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  padding-top: 3rem;
+  z-index: 999;
+}
+
+.navbar-scrolled {
+  background-color: rgb(0, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 2rem;
+}
+
+.logo-large {
+  width: 150px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.logo-small {
+  width: 100px;
+  transition: all 0.3s ease;
+}
+
+.nav-link {
+   color: rgb(230, 195, 80) !important;
+  margin: 0px 10px;
+  font-weight: normal;
+  font-size: 1.5rem !important;
+  transition: color 0.3s ease;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: rgba(230, 195, 80,0.8) !important;
+}
+
+.scrolled-link {
+   color: rgb(230, 195, 80) !important;
+}
+
+.scrolled-link:hover {
+  color: rgba(230, 195, 80,0.7) !important;
+}
+
+.nav-link.active {
+  color: rgb(230, 195, 80) !important;
+  font-weight: 600;
+}
+
+/* Mobile Navbar */
+@media (max-width: 991px) {
+  .custom-navbar {
+    padding: 1rem 0;
+  }
+  
+  .logo-large {
+    width: 120px;
+  }
+  
+  .logo-small {
+    width: 80px;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+}

@@ -1,1 +1,140 @@
+/* Footer Styles */
+.footer-section {
+    background-color: #F5F4F4;
+    padding: 7rem 5rem;
+}
 
+.footer-link {
+    display: flex;
+    align-items: baseline;
+    gap: 6rem;
+    flex-wrap: wrap;
+}
+
+.contact-us h6,
+.customers h6 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-us p,
+.customers p {
+    margin-bottom: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.contact-us p:first-of-type {
+    font-weight: 600;
+    color: #333;
+}
+
+.customers p:hover {
+    color: #007bff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.footer-section h5 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.footer-section .form input {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.footer-section .form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.footer-section p {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.footer-section p u {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.footer-section p u:hover {
+    color: #0056b3;
+}
+
+.footer-section .btn {
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.footer-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .footer-section {
+        padding: 4rem 2rem;
+    }
+    
+    .footer-link {
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-section {
+        padding: 3rem 1rem;
+    }
+    
+    .footer-link {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+    
+    .contact-us,
+    .customers {
+        width: 100%;
+    }
+    
+    .footer-section .form input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-section {
+        padding: 2rem 0.5rem;
+    }
+    
+    .footer-section h5 {
+        font-size: 1.1rem;
+    }
+    
+    .contact-us h6,
+    .customers h6 {
+        font-size: 0.9rem;
+    }
+    
+    .contact-us p,
+    .customers p {
+        font-size: 0.85rem;
+    }
+}

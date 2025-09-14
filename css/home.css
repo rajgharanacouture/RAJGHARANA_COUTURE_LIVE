@@ -1,0 +1,193 @@
+/* Home Page Styles */
+.home-bg-image {
+  background-image: url("../images/Home-bg0.jpg");
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: -1;
+}
+
+.bg-color {
+  /*background-color: rgba(0, 0, 0, 0.347);*/
+  width: 100%;
+  height: 100vh;
+}
+
+.Capturing {
+  color: #000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 1;
+  
+  background-color: #f9fafb;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.Capturing-text {
+  font-size: 16px;
+  line-height: 2.2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.what-wear {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.what-wear .card {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.what-wear .card-body p:first-child {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.what-wear .card-body p:last-child {
+  color: #007bff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.better-choices {
+  background-color: #F5F4F4;
+  text-align: center;
+  padding: 3rem 5rem;
+}
+
+.better-choices-text p {
+  font-size: 16px;
+  padding: 0px 20rem;
+  line-height: 1.8;
+}
+
+.insta-shop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.insta-shop .card {
+  flex: 1;
+  min-width: 150px;
+  max-width: 200px;
+}
+
+.insta-shop .card img {
+  border-radius: 8px;
+}
+
+/* Girl Model Section */
+.girl-model {
+  padding: 2rem 0;
+}
+
+.girl-model img {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* What to Wear Now Section */
+.what-to-wear-now {
+  padding: 1rem 0;
+  background-color: #f8f9fa;
+}
+
+.what-to-wear-now h4 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Instagram Shop Section */
+.instagram-shop {
+  padding: 3rem 0;
+  background-color: #fff;
+}
+
+.instagram-shop h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .better-choices-text p {
+    padding: 0 10rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .better-choices-text p {
+    padding: 0 5rem;
+  }
+  
+  .what-wear {
+    justify-content: center;
+  }
+  
+  .insta-shop {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .Capturing {
+    padding: 3rem 1rem;
+  }
+  
+  .Capturing-text {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  
+  .better-choices {
+    padding: 2rem 1rem;
+  }
+  
+  .better-choices-text p {
+    padding: 0 1rem;
+    font-size: 14px;
+  }
+  
+  .what-wear .card {
+    min-width: 150px;
+  }
+  
+  .insta-shop .card {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .home-bg-image {
+    height: 70vh;
+  }
+  
+  .bg-color {
+    height: 70vh;
+  }
+  
+  .Capturing {
+    padding: 2rem 0.5rem;
+  }
+  
+  .better-choices {
+    padding: 1.5rem 0.5rem;
+  }
+}

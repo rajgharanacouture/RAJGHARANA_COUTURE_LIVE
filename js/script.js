@@ -162,6 +162,20 @@ function initializeCarousels() {
     // This function can be used to initialize any carousel functionality
     // Currently not needed as the design doesn't use carousels
     console.log('Carousel initialization ready');
+    const slides = document.querySelector('.home-image');
+    console.log('==>',slides);
+    const slideCount = 2;
+    let currentIndex = 0;
+    setInterval(autoSlide, 4000);
+
+    function showSlide(index) {
+      slides.src = `images/Home-bg${index}.jpg`;
+    }
+
+    function autoSlide() {
+      currentIndex = (currentIndex + 1) % slideCount;
+      showSlide(currentIndex);
+    }
 }
 
 // Initialize lazy loading for images

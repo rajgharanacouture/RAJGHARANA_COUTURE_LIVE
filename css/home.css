@@ -101,7 +101,7 @@
 
 /* What to Wear Now Section */
 .what-to-wear-now {
-  padding: 1rem 0;
+  padding: 0.2rem 0;
   background-color: #f8f9fa;
 }
 
@@ -124,6 +124,32 @@
   font-weight: 600;
   color: #333;
 }
+
+.card-body{
+  padding : 0px 0px 10% 0px;
+}
+
+/* Whatsapp Float */
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;      /* <-- moved from left to right */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.whatsapp-float img {
+  width: 32px;
+  height: 32px;
+}
+
+
 
 /* Responsive Design */
 @media (max-width: 1200px) {
@@ -190,4 +216,8 @@
   .better-choices {
     padding: 1.5rem 0.5rem;
   }
+}
+
+#productModalImage{
+  min-width : 100%;
 }

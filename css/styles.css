@@ -84,6 +84,7 @@ section {
     gap: 0.5rem;
 }
 
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .what-wear {
@@ -122,6 +123,10 @@ section {
     transition: all 0.3s ease;
 }
 
+#addToCartBtn{
+    border-radius: var(--bs-border-radius);
+}
+
 .btn-add-cart:hover {
     background: rgba(230, 195, 80);
     transform: scale(1.1);
@@ -136,8 +141,14 @@ section {
     .Capturing-text {
         font-size: 14px;
     }
+    .outside-icon{
+        padding-top: 10% !important;
+        transition: all 0.3s ease;
+    }
+    
 }
 
+ 
 .btn-view {
     background: black;
     border: none;

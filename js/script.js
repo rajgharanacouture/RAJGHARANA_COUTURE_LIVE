@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //navLinks.forEach(link => {
               //  link.classList.add('scrolled-link');
             //});
+            
         } else {
             //navbar.classList.remove('navbar-scrolled');
             logo.classList.remove('logo-small');
@@ -218,6 +219,38 @@ function animateOnScroll() {
         observer.observe(element);
     });
 }
+//prateek
+function viewProduct(productId) {
+    // Populate modal
+    console.log("viewProduct called");
+
+    //document.getElementById('productModal').style.display = "block";
+    //.textContent = product.name;
+    document.getElementById('productModalImage').src = product.image;
+    document.getElementById('productModalName').textContent = product.name;
+    document.getElementById('productModalCategory').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+    document.getElementById('productModalPrice').textContent = `$${product.price}`;
+    document.getElementById('productModalDescription').textContent = product.description;
+    
+    // Update size options
+    const sizeSelect = document.getElementById('productSize');
+    sizeSelect.innerHTML = '';
+    product.sizes.forEach(size => {
+        const option = document.createElement('option');
+        option.value = size;
+        option.textContent = size === 'One Size' ? 'One Size' : size;
+        sizeSelect.appendChild(option);
+    });
+}
+
+// Modal switching
+    document.getElementById('showRegister').addEventListener('click', function(e) {
+        e.preventDefault();
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+        const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+        registerModal.show();
+    });
+//prateek
 
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', animateOnScroll);

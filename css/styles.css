@@ -108,11 +108,14 @@ section {
     }
 }
 
+.navbar-toggler-icon{
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28230, 195, 80, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
 .btn-add-cart {
     background: black;
     border: none;
-    color: rgba(230, 195, 80);
+    color: rgb(230, 195, 80);
     padding: 0.5rem;
     border-radius: 50%;
     width: 45px;
@@ -128,7 +131,7 @@ section {
 }
 
 .btn-add-cart:hover {
-    background: rgba(230, 195, 80);
+    background: rgb(230, 195, 80);
     transform: scale(1.1);
     color: white;
 }

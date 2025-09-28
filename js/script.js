@@ -178,7 +178,6 @@ function initializeCarousels() {
     // Currently not needed as the design doesn't use carousels
     console.log('Carousel initialization ready');
     const slides = document.querySelector('.home-image');
-    console.log('==>',slides);
     const slideCount = 4;
     let currentIndex = 0;
     setInterval(autoSlide, 4000);

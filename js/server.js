@@ -213,29 +213,29 @@
         }
 
         // Check user in DB
-        const { data, error } = await client
+        /*const { data, error } = await client
         .from("Users")
         .select("user_id, Name, Email, password")
         .eq("Email", email)
-        .eq("password", password)  
+        .eq("password", password)  */
         
-
+        const { data, error } = await client.auth.signInWithPassword({ email : email, password : password });
         
         
         console.log('signin data, ',data);
         
 
-        if (error || data.length == 0) {
+        if (error) {
         console.error(error);
         showAlert("Sign-in unsuccessful. Please verify your details.!");
         return;
         }
 
-        if (data.length > 0) {
-        // user found
-        const user = data[0];
-        //window.currentUserId = user.user_id; // Save logged-in user id
-        showAlert(`Login successful! Welcome ${user.Name}`);
+        if (data && data.user) {
+            // user found
+            const user = data.user.user_metadata;
+            //window.currentUserId = user.user_id; // Save logged-in user id
+            showAlert(`Welcome ${user.full_name} 😃`);
         } else {
         showAlert("Invalid email or password!");
         }
@@ -272,7 +272,12 @@
         }
 
 
-      let signUpResponse = await client.auth.signUp({ email, password });
+      let signUpResponse = await client.auth.signUp({ email, password, phone : phoneNumber,  options: {
+                    data: {
+                        full_name: name + lastName
+                    }
+                } });
+      
       console.log(' signUpResponse ', signUpResponse);
     }
       

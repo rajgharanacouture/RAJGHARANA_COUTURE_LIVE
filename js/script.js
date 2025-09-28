@@ -158,6 +158,20 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLazyLoading();
 });
 
+// Show alert message
+function showAlert(message) {
+    //document.getElementById("showToast").addEventListener("click", () => {
+      let toastElement = document.getElementById("liveToast");
+      toastElement.innerHTML = `<div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>`;
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    //});
+}
+
 // Initialize carousels function
 function initializeCarousels() {
     // This function can be used to initialize any carousel functionality
@@ -219,20 +233,36 @@ function animateOnScroll() {
         observer.observe(element);
     });
 }
-//prateek
-function viewProduct(productId) {
-    // Populate modal
-    console.log("viewProduct called");
 
+function viewProduct(productName, productImage, productPrice, productDescription, productId) {
+    
+
+    //productJSON = JSON.parse(productJSON);
+    // Populate modal
+    
+    console.log( "viewProduct called",window.cartData);
     //document.getElementById('productModal').style.display = "block";
     //.textContent = product.name;
-    document.getElementById('productModalImage').src = product.image;
-    document.getElementById('productModalName').textContent = product.name;
-    document.getElementById('productModalCategory').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
-    document.getElementById('productModalPrice').textContent = `$${product.price}`;
-    document.getElementById('productModalDescription').textContent = product.description;
+    document.getElementById('productModalImage').src = productImage;
+    document.getElementById('productModalTitle').textContent = productName;
+    //document.getElementById('productModalCategory').textContent = 'WoMen';
+
+    const cartItem = window.cartData.find(cart => cart.productId == productId);
+    if (cartItem) {
+        document.getElementById('productQuantity').value = cartItem.quantity;
+    }
+
+    //document.getElementById('productQuantity').value = window.cartData[0].quantity;
+    document.getElementById('productModalPrice').textContent = '₹' + productPrice;
+    document.getElementById('productModalDescription').textContent = productDescription;
+    document.getElementById('addToCartBtn').setAttribute('onclick', "addToCart('" + productId  +"', document.getElementById('productQuantity').value, 'update');");
+
+    console.log(' #addToCartBtn ',document.getElementById('addToCartBtn'));
     
-    // Update size options
+
+ 
+
+    /*Update size options
     const sizeSelect = document.getElementById('productSize');
     sizeSelect.innerHTML = '';
     product.sizes.forEach(size => {
@@ -240,7 +270,7 @@ function viewProduct(productId) {
         option.value = size;
         option.textContent = size === 'One Size' ? 'One Size' : size;
         sizeSelect.appendChild(option);
-    });
+    });*/
 }
 
 // Modal switching
@@ -250,7 +280,14 @@ function viewProduct(productId) {
         const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
         registerModal.show();
     });
-//prateek
+
+
+ document.getElementById('showLogin').addEventListener('click', function(e) {
+        e.preventDefault();
+        bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    });
 
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', animateOnScroll);

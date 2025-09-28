@@ -2,12 +2,18 @@
 .home-bg-image {
   background-image: url("../images/Home-bg0.jpg");
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
   z-index: -1;
+}
+
+.modal-header{
+  background: black;
+    border: none;
+    color: rgb(230, 195, 80);
 }
 
 .bg-color {
@@ -18,7 +24,7 @@
 
 a:link, a:visited, a:link:active, a:visited:active{
   color: unset;
-  text-decoration-line: none;
+  
 }
 
 
@@ -28,7 +34,6 @@ a:link, a:visited, a:link:active, a:visited:active{
   text-transform: uppercase;
   letter-spacing: 2px;
   z-index: 1;
-  
   background-color: #f9fafb;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
@@ -236,6 +241,31 @@ a:link, a:visited, a:link:active, a:visited:active{
   }
 }
 
+.closeIcon{
+  
+  padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
+  margin-top: calc(-.5 * var(--bs-modal-header-padding-y));
+  margin-right: calc(-.5 * var(--bs-modal-header-padding-x));
+  margin-bottom: calc(-.5 * var(--bs-modal-header-padding-y));
+  margin-left: auto;
+  cursor: pointer;
+}
+
+#cartCount{
+    background-color: rgb(230, 195, 80);
+    color: black;
+    font-size: 10px;
+    min-width: 1rem;
+    min-height: 1rem;
+    text-align: center;
+    display: none;
+}
+
 #productModalImage{
   min-width : 100%;
 }
+
+.modal-body {
+    padding: 1.5rem;
+}
+

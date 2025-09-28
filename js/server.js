@@ -130,6 +130,11 @@
         }
 
         async function loadCarts() {
+
+            if(!currentUser){
+                return;
+            }
+
             const cartResponse = await client.from("Cart").select("*").order("created_at", { ascending: false });
             cartData = cartResponse.data;
             
@@ -275,8 +280,9 @@
             // user found
             currentUser = signInResponse.data;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            loadCarts();
             //window.currentUserId = user.user_id; // Save logged-in user id
-            showAlert(`Welcome ${signInResponse.data.user.user_metadata.full_name} 😃`);
+            showAlert(`Welcome ${signInResponse.data.user.user_metadata.first_name} 😃`);
 
             createClient();
             bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
@@ -316,9 +322,11 @@
         }
 
 
-      let signUpResponse = await client.auth.signUp({ email, password, phone : phoneNumber,  options: {
+      let signUpResponse = await client.auth.signUp({ email, password,  options: {
                     data: {
-                        full_name: name + lastName
+                        first_name: name,
+                        last_name: lastName,
+                        phone: phoneNumber
                     }
                 } });
       
@@ -403,6 +411,14 @@
         showAlert("Order place successfully");
 
         loadCarts();
+    }
+
+    function handleLogout(){
+        showAlert('You have been logged out successfully.');
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        location.reload();
+        const { error } =  client.auth.signOut()
     }
 
 //});

@@ -70,63 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
         homeLink.classList.add('active');
     }
     
-    // Newsletter subscription
-    const subscribeBtn = document.querySelector('.footer-section .btn');
-    const emailInput = document.querySelector('.footer-section input[type="email"]');
-    
-    if (subscribeBtn && emailInput) {
-        subscribeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const email = emailInput.value.trim();
-            
-            if (email && isValidEmail(email)) {
-                // Simulate subscription
-                showNotification('Thank you for subscribing!', 'success');
-                emailInput.value = '';
-            } else {
-                showNotification('Please enter a valid email address.', 'error');
-            }
-        });
-    }
-    
-    // Email validation function
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    // Notification function
-    function showNotification(message, type) {
-        // Remove existing notifications
-        const existingNotification = document.querySelector('.notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
-        
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
-        notification.style.cssText = `
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            min-width: 300px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        notification.textContent = message;
-        
-        // Add to page
-        document.body.appendChild(notification);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 3000);
-    }
-    
     // Add hover effects to cards
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
@@ -155,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCarousels();
     
     // Lazy loading for images
-    initializeLazyLoading();
+    initializeLazyLoading();    
+
 });
 
 // Show alert message
@@ -290,4 +234,32 @@ function viewProduct(productName, productImage, productPrice, productDescription
 
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', animateOnScroll);
+
+    function showProfile() {
+        console.log('showProfile called',currentUser);
+
+        if(!currentUser){
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+            modal.show();
+            return;
+        }
+
+        let user_metadata = currentUser.user.user_metadata;
+        document.getElementById('profileFirstName').value = user_metadata.first_name;
+        document.getElementById('profileLastName').value = user_metadata.last_name;
+        document.getElementById('profileEmailInput').value = user_metadata.email;
+        document.getElementById('profilePhone').value = user_metadata.phone || '';
+
+        // Update display
+        document.getElementById('profileName').textContent = `${user_metadata.first_name} ${user_metadata.last_name}`;
+        document.getElementById('profileEmail').textContent = user_metadata.email;
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('profileModal'));
+        modal.show();
+
+    }
+
+
 

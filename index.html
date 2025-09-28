@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/cart.css">
 </head>
 <body id="home">
     <!-- Navigation -->
@@ -32,8 +33,12 @@
                 <a class="nav-link custom-font outside-icon" href="">
                     <i class="fas fa-home me-1"></i>
                 </a>
-                <a class="nav-link custom-font outside-icon" href="">
-                    <i class="fas fa-shopping-cart me-1"></i>
+                <a class="nav-link custom-font outside-icon" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="" href="">
+                    <i class="fas fa-shopping-cart me-1 position-relative">
+                          <span class="position-absolute translate-middle p-1 rounded-circle" id="cartCount">
+                           
+                        </span>
+                    </i>
                 </a>
                 <a class="nav-link custom-font outside-icon" data-bs-toggle="modal" data-bs-target="#loginModal" id="loginBtn" href="">
                     <i class="fas fa-user me-1"></i>
@@ -75,7 +80,7 @@
 
             <!-- Hero Background -->
             
-                <img class="home-image" width="100%" height="1000" src="images/Home-bg0.jpg"> 
+                <img class="home-image" width="100%" height="700" src="images/Home-bg0.jpg"> 
                 
                 
             
@@ -98,91 +103,7 @@
                 <div class="container-fluid">
                     <h4>What to Wear Now</h4>
                     <div class="what-wear row">
-                        <div class="card col-6">
-                            <div class="card-header">
-                                <img src="images/image (1).jpg" width="100%" alt="Product 1">
-                            </div>
-                            <div class="card-body">
-                                <p>Classic Easy Zipper Tote</p>
-                                <p>₹298</p>
-                                <div class="product-actions">
-                                    <button class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal" onclick="viewProduct(2)">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-add-cart" onclick="addToCart(2)">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card col-6">
-                            <div class="card-header">
-                                <img src="images/image.jpg" width="100%" alt="Product 2">
-                            </div>
-                            <div class="card-body">
-                                <p>Classic Easy Zipper Tote</p>
-                                <p>₹298</p>
-                                <div class="product-actions">
-                                    <button class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal" onclick="viewProduct(2)">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-add-cart" onclick="addToCart(2)">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card col-6">
-                            <div class="card-header">
-                                <img src="images/image (2).jpg" width="100%" alt="Product 3">
-                            </div>
-                            <div class="card-body">
-                                <p>Classic Easy Zipper Tote</p>
-                                <p>₹298</p>
-                                <div class="product-actions">
-                                    <button class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal" onclick="viewProduct(2)">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-add-cart" onclick="addToCart(2)">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card col-6">
-                            <div class="card-header">
-                                <img src="images/image (3).jpg" width="100%" alt="Product 4">
-                            </div>
-                            <div class="card-body">
-                                <p>Classic Easy Zipper Tote</p>
-                                <p>₹298</p>
-                                <div class="product-actions">
-                                    <button class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal" onclick="viewProduct(2)">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-add-cart" onclick="addToCart(2)">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <img src="images/image (4).jpg" width="100%" alt="Product 5">
-                            </div>
-                            <div class="card-body">
-                                <p>Classic Easy Zipper Tote</p>
-                                <p>₹298</p>
-                                <div class="product-actions">
-                                    <button class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal" onclick="viewProduct(2)">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-add-cart" onclick="addToCart(2)">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </section>
@@ -283,9 +204,11 @@
     <div class="modal fade" id="productModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header d-flex ">
                     <h5 class="modal-title" id="productModalTitle">Product Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    
+                    
+                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i>    
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -295,9 +218,9 @@
                         <div class="col-md-6">
                             <h4 id="productModalName"></h4>
                             <p class="text-muted" id="productModalCategory"></p>
-                            <h5 class="text-primary" id="productModalPrice"></h5>
+                            <h5 id="productModalPrice"></h5>
                             <p id="productModalDescription"></p>
-                            <div class="mb-3">
+                            <!--<div class="mb-3">
                                 <label class="form-label">Size:</label>
                                 <select class="form-select" id="productSize">
                                     <option value="S">Small</option>
@@ -305,13 +228,13 @@
                                     <option value="L">Large</option>
                                     <option value="XL">Extra Large</option>
                                 </select>
-                            </div>
+                            </div>-->
                             <div class="mb-3">
-                                <label class="form-label">Quantity:</label>
-                                <input type="number" class="form-control" id="productQuantity" value="1" min="1" max="10">
+                                <label class="form-label fw-bold">Quantity:</label>
+                                <input type="number" class="form-control" id="productQuantity" value="1" min="1">
                             </div>
-                            <button class="btn btn-add-cart w-100" onclick="addToCart(2)" id="addToCartBtn">
-                                <i class="fas fa-cart-plus"></i>  Add to Cart    
+                            <button class="btn btn-view w-100" onclick="addToCart(2)" id="addToCartBtn">
+                                <i class="fas fa-cart-plus"></i> &nbsp; Add to Cart    
                             </button>
                         </div>
                     </div>
@@ -327,7 +250,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Login to StyleHub</h5>
+                    <h5 class="modal-title">Sign In To Continue Shopping</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -341,11 +264,11 @@
                             <input type="password" class="form-control" id="loginPassword" required>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="button" onclick="signIn();" class="btn btn-view">Login</button>
                         </div>
                     </form>
                     <div class="text-center mt-3">
-                        <p class="mb-0">Don't have an account? <a href="#" id="showRegister">Sign up here</a></p>
+                        <p class="mb-0">Don't have an account? <a href="#" id="showRegister">Register here</a></p>
                         <p class="mb-0"><a href="#" id="forgotPassword">Forgot your password?</a></p>
                     </div>
                 </div>
@@ -359,19 +282,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Create Account</h5>
+                    <h5 class="modal-title">Register</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="registerForm">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="firstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="firstName" required>
+                                <label for="registerFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstName" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="lastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" required>
+                                <label for="registerLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastName" required>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -392,7 +315,7 @@
                             <input type="password" class="form-control" id="confirmPassword" required>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Create Account</button>
+                            <button type="button" onclick="signUp();" class="btn btn-view">Let’s Get You Signed In</button>
                         </div>
                     </form>
                     <div class="text-center mt-3">
@@ -404,7 +327,7 @@
     </div>
     <!-- Registration Modal stop-->
 
-    <!-- Profile Modal start-->
+    <!-- Profile Modal start
     <div class="modal fade" id="profileModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -455,7 +378,44 @@
             </div>
         </div>
     </div>
-    <!-- Profile Modal stop-->
+     Profile Modal stop-->
+
+    <!-- Cart Modal start -->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Checkout List</h5>
+                     <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems">
+                        <!-- Cart items will be displayed here -->
+                    </div>
+
+                    <div class="text-center" id="emptyCart" style="display: none;">
+                        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Your cart is empty</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between w-100">
+                        <h5>Total: ₹<span id="cartTotal">0.00</span></h5>
+                        <button class="btn btn-view" id="checkoutBtn">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart Modal stop -->
+
+    <!-- Toast Message start -->
+    <div class="toast-container position-fixed top-0 end-0">
+        <div id="liveToast" class="toast align-items-center modal-header border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            
+        </div>
+    </div>
+  <!-- Toast Message stop -->
 
     <!-- Footer -->
     <footer id="contact" class="footer-section mt-5">
@@ -523,7 +483,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Slick Carousel JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <!-- Server JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Custom JS -->
     <script src="js/script.js"></script>
+    <script src="js/server.js"></script>
 </body>
 </html>

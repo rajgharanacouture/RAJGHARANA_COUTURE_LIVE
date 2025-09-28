@@ -99,8 +99,8 @@ a:link, a:visited, a:link:active, a:visited:active{
 
 .insta-shop .card {
   flex: 1;
-  min-width: 150px;
-  max-width: 200px;
+  /*min-width: 150px;
+  max-width: 200px;*/
 }
 
 .insta-shop .card img {
@@ -251,15 +251,7 @@ a:link, a:visited, a:link:active, a:visited:active{
   cursor: pointer;
 }
 
-#cartCount{
-    background-color: rgb(230, 195, 80);
-    color: black;
-    font-size: 10px;
-    min-width: 1rem;
-    min-height: 1rem;
-    text-align: center;
-    display: none;
-}
+
 
 #productModalImage{
   min-width : 100%;
@@ -269,3 +261,6 @@ a:link, a:visited, a:link:active, a:visited:active{
     padding: 1.5rem;
 }
 
+.instagram-media{
+  width: 100%;
+}

@@ -72,3 +72,13 @@
 .remove-btn:hover {
     background: #d63031;
 }
+
+#cartCount{
+    background-color: rgb(230, 195, 80);
+    color: black;
+    font-size: 10px;
+    min-width: 1rem;
+    min-height: 1rem;
+    text-align: center;
+    display: none;
+}

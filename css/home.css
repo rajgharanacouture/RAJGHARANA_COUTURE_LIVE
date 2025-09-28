@@ -90,6 +90,8 @@ a:link, a:visited, a:link:active, a:visited:active{
   flex-wrap: wrap;
 }
 
+
+
 .insta-shop .card {
   flex: 1;
   /*min-width: 150px;
@@ -231,6 +233,9 @@ a:link, a:visited, a:link:active, a:visited:active{
   
   .better-choices {
     padding: 1.5rem 0.5rem;
+  }
+  .modal{
+    margin-top: 5%;
   }
 }
 

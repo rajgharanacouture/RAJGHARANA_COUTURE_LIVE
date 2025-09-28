@@ -15,11 +15,11 @@
     flex-wrap: wrap;
 }
 
-.contact-us h6 {
+.contact-us h6 h3 {
     font-weight: 700;
     font-size: 1rem;
     margin-bottom: 1rem;
-    color: #B0B0B0;
+    color: #e6c350;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -37,12 +37,12 @@
 
 .contact-us p:first-of-type {
     font-weight: 600;
-    color: #B0B0B0;
+    color: #e6c350;
 }
 
-.footer-section h5 {
+.footer-section h3 {
     font-weight: 600;
-    color: #B0B0B0;
+    color: #e6c350;
     margin-bottom: 1rem;
 }
 
@@ -59,19 +59,19 @@
 
 .footer-section p {
     font-size: 0.85rem;
-    color: #B0B0B0;
+    color: #e6c350;
     margin-top: 1rem;
     line-height: 1.5;
 }
 
 .footer-section p u {
-    color: #B0B0B0;
+    color: #e6c350;
     cursor: pointer;
     text-decoration: underline;
 }
 
 .footer-section p u:hover {
-    color: light#B0B0B0;
+    color: light#e6c350;
 }
 
 .footer-section .btn {
@@ -85,6 +85,13 @@
 .footer-section .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.social-media-icons{
+  display: flex;
+  align-items: center;
+  gap: 3.3rem;
+  flex-wrap: wrap;
 }
 
 /* Responsive Design */

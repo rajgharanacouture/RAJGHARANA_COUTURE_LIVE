@@ -90,13 +90,6 @@ a:link, a:visited, a:link:active, a:visited:active{
   flex-wrap: wrap;
 }
 
-.social-media-icons{
-  display: flex;
-  align-items: center;
-  gap: 2.5rem;
-  flex-wrap: wrap;
-}
-
 .insta-shop .card {
   flex: 1;
   /*min-width: 150px;
@@ -138,7 +131,7 @@ a:link, a:visited, a:link:active, a:visited:active{
 
 /* Instagram Shop Section */
 .instagram-shop {
-  padding: 3rem 0;
+  
   background-color: #fff;
 }
 

@@ -7,8 +7,23 @@
     const supabaseUrl = "https://dklcbcbgpdrqsqupaaeb.supabase.co";
 
 
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbGNiY2JncGRycXNxdXBhYWViIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzI1ODk1MiwiZXhwIjoyMDcyODM0OTUyfQ.EN8lHW9BBf1qSNXw9fFnFU1rWgIoOsWqltks57qp-pY"; // apna anon key lagao
-    const client = supabase.createClient(supabaseUrl, supabaseKey);
+    //const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbGNiY2JncGRycXNxdXBhYWViIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzI1ODk1MiwiZXhwIjoyMDcyODM0OTUyfQ.EN8lHW9BBf1qSNXw9fFnFU1rWgIoOsWqltks57qp-pY"; // apna anon key lagao
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbGNiY2JncGRycXNxdXBhYWViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNTg5NTIsImV4cCI6MjA3MjgzNDk1Mn0.JwMYyY4hfkRctnE2CBF_R_88GQSX58mE4cp25MvDODY"; // apna anon key lagao
+    
+    var client = supabase.createClient(supabaseUrl, supabaseKey);
+
+    window.currentUser = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')) : null;
+
+    function createClient(){
+        if(currentUser){
+            console.log(' login ', currentUser);
+            //client = supabase.createClient(supabaseUrl, currentUser.session.access_token);
+            console.log('client login ', client);
+
+        }
+    }
+    createClient();
+    
 
         async function loadProducts() {
             console.log('loadProducts called');
@@ -53,10 +68,23 @@
         loadProducts();
         loadCarts();
 
-        async function addToCart(productId, quantity, action){
-            console.log(' addToCart called ',productId);
+        async function checkSignIn(){
 
-            let updateCart = { productId: productId, quantity : quantity };
+            if(!currentUser){
+                showAlert('Unable to update. Please log in to continue.');
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            }
+            
+        }
+
+        async function addToCart(productId, quantity, action){
+            console.log(currentUser,' addToCart called ',client);
+            
+            checkSignIn();
+            
+
+            let updateCart = { productId: productId, quantity : quantity, user_id : currentUser.user.id };
 
             const cartItem = cartData.find(cart => cart.productId == productId);
             if (cartItem) {
@@ -66,20 +94,32 @@
                 }
             }
 
+            client = supabase.createClient(supabaseUrl, supabaseKey, {
+                global: {
+                    headers: {
+                    Authorization: `Bearer ${currentUser.session.access_token}`,
+                    },
+                },
+            });
+            
+
             let cartResponse = await client
                 .from("Cart")
                 .upsert([ updateCart ]);
+
+
             
 
             //let { data, error } = await client.from('Cart').select('cart_id').in('productId', [productId]);   
 
              
 
-            
-
             if (cartResponse.error) {
-                console.error(cartResponse.error);
-                showAlert("Error inserting card!");
+                if(cartResponse.error.message == 'JWT expired'){
+                    showAlert('Session expired. Please log in again to continue.');
+                }else{
+                    showAlert("Error inserting cart!");
+                }
             } else {
                 console.log('data ',cartResponse.data);
                 showAlert('✨ Great choice! Your product is in the cart.');
@@ -92,8 +132,8 @@
         async function loadCarts() {
             const cartResponse = await client.from("Cart").select("*").order("created_at", { ascending: false });
             cartData = cartResponse.data;
-            let cartError = cartResponse.error;
-            if (cartError) { console.error(cartError); return; }
+            
+            if (cartResponse.error) { console.error(cartResponse.error); return; }
 
             console.log('loadCarts called' , cartData);
 
@@ -198,7 +238,7 @@
 
         }
     
-//prateek
+
 
     async function signIn() {
     
@@ -208,8 +248,8 @@
         const password = document.getElementById("loginPassword").value.trim();
 
         if (!email || !password) {
-        showAlert("Kindly enter your email and password!");
-        return;
+            showAlert("Kindly enter your email and password!");
+            return;
         }
 
         // Check user in DB
@@ -219,25 +259,29 @@
         .eq("Email", email)
         .eq("password", password)  */
         
-        const { data, error } = await client.auth.signInWithPassword({ email : email, password : password });
+        let signInResponse = await client.auth.signInWithPassword({ email : email, password : password });
         
         
-        console.log('signin data, ',data);
+        console.log('signin data, ',signInResponse);
         
 
-        if (error) {
-        console.error(error);
+        if (signInResponse.error) {
+        console.error(signInResponse.error);
         showAlert("Sign-in unsuccessful. Please verify your details.!");
         return;
         }
 
-        if (data && data.user) {
+        if (signInResponse.data) {
             // user found
-            const user = data.user.user_metadata;
+            currentUser = signInResponse.data;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             //window.currentUserId = user.user_id; // Save logged-in user id
-            showAlert(`Welcome ${user.full_name} 😃`);
+            showAlert(`Welcome ${signInResponse.data.user.user_metadata.full_name} 😃`);
+
+            createClient();
+            bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
         } else {
-        showAlert("Invalid email or password!");
+            showAlert("Invalid email or password!");
         }
     }
 
@@ -279,7 +323,86 @@
                 } });
       
       console.log(' signUpResponse ', signUpResponse);
+
+      if(signUpResponse.error){
+        showAlert("Signup failed! Kindly check your details or try again later.");
+      }else{
+        showAlert("🎉 Signup successful! Please verify your email to activate your account.");
+      }
+
     }
       
+    async function processCheckout() {
+
+        if (cartData.length === 0) {
+            showAlert('Your cart is empty!');
+            return;
+        }
+
+        checkSignIn();
+
+        await client
+                .from("Order")
+                .insert([ {user_id : currentUser.user.id} ]);
+
+        const orderResponse = await client.from("Order").select("*").order("created_at", { ascending: false });
+
+        if(orderResponse.error){
+            if(orderResponse.error.message == 'JWT expired'){
+                showAlert('Session expired. Please log in again to continue.');
+            }else{
+                showAlert("Error inserting cart!");
+            }
+        }
+
+        console.log('orderResponse ', orderResponse);
+        let orderId = orderResponse.data[0].order_id;
+
+        let productIds = [];
+            cartData.forEach(cart => {
+                productIds.push(cart.productId);
+            });
+            
+        let productResponse = await client.from('Products').select('*').in('id', productIds);
+
+        //data = JSON.parse( JSON.stringify(data));
+            for (let index = 0; index < productResponse.data.length; index++) {
+                let dataElement = productResponse.data[index];
+                for (let cartIndex = 0; cartIndex < cartData.length; cartIndex++) {
+                    const cartElement = cartData[cartIndex];
+                    if(dataElement.id == cartElement.productId){
+                        cartData[index].price = dataElement.productprice;
+                        cartData[index].productname = dataElement.productname;
+                    }
+                }
+            }
+
+
+        let orderLineItems = [];
+        cartData.forEach( cart=> {
+            orderLineItems.push( { product_id: cart.productId, 
+                quantity : cart.quantity, user_id : currentUser.user.id, price : cart.price,
+                product_name: cart.productname, order_id : orderId  });
+        });
+
+        let Order_Line_ItemResponse = await client
+                .from("Order_Line_Item")
+                .insert( orderLineItems );
+
+        console.log(' Order_Line_ItemResponse called ',Order_Line_ItemResponse);        
+
+        let cartIds = [];
+        cartData.forEach(cart => {
+            cartIds.push(cart.cart_id);
+        });
+
+        await client
+                .from("Cart")
+                .delete().in("cart_id",cartIds);
+
+        showAlert("Order place successfully");
+
+        loadCarts();
+    }
 
 //});

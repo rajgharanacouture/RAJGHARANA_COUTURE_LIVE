@@ -206,8 +206,6 @@
             <div class="modal-content">
                 <div class="modal-header d-flex ">
                     <h5 class="modal-title" id="productModalTitle">Product Details</h5>
-                    
-                    
                     <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i>    
                 </div>
                 <div class="modal-body">
@@ -251,7 +249,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Sign In To Continue Shopping</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
                 </div>
                 <div class="modal-body">
                     <form id="loginForm">
@@ -269,7 +267,7 @@
                     </form>
                     <div class="text-center mt-3">
                         <p class="mb-0">Don't have an account? <a href="#" id="showRegister">Register here</a></p>
-                        <p class="mb-0"><a href="#" id="forgotPassword">Forgot your password?</a></p>
+                        <!--<p class="mb-0"><a href="#" id="forgotPassword">Forgot your password?</a></p>-->
                     </div>
                 </div>
             </div>
@@ -283,7 +281,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Register</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
                 </div>
                 <div class="modal-body">
                     <form id="registerForm">
@@ -401,7 +399,7 @@
                 <div class="modal-footer">
                     <div class="d-flex justify-content-between w-100">
                         <h5>Total: ₹<span id="cartTotal">0.00</span></h5>
-                        <button class="btn btn-view" id="checkoutBtn">Place Order</button>
+                        <button class="btn btn-view" onclick="processCheckout();" data-bs-dismiss="modal" id="checkoutBtn">Place Order</button>
                     </div>
                 </div>
             </div>

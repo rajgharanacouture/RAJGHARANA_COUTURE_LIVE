@@ -7,7 +7,7 @@
 }
 
 .navbar-scrolled {
-  background: linear-gradient(135deg, #2F2F2F 0%, #C28840 50%, #000000 100%);
+  background: linear-gradient(135deg, #2F2F2F 100%, #C28840 50%, #000000 0%);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 2rem;
 }

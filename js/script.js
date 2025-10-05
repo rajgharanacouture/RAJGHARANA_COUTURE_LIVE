@@ -238,14 +238,25 @@ function viewProduct(productName, productImage, productPrice, productDescription
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', animateOnScroll);
 
-    function showProfile() {
+    async function showProfile() {
         console.log('showProfile called',currentUser);
 
         if(!currentUser){
             // Show modal
             new bootstrap.Modal(document.getElementById('loginModal')).show();
             return;
+        }else{
+
+        
+            const expiresAt = currentUser.session.expires_at *1000;//session.expires_at * 1000; // convert to ms
+            if (Date.now() > expiresAt) {
+                showAlert('Session Expired. Please sign in to continue.');
+                new bootstrap.Modal(document.getElementById('loginModal')).show();
+                return;
+            }
         }
+
+
 
         let user_metadata = currentUser.user.user_metadata;
         document.getElementById('profileFirstName').value = user_metadata.first_name;

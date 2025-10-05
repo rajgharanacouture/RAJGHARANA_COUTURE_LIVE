@@ -73,18 +73,24 @@
             if(!currentUser){
                 showAlert('Unsuccessful. Please sign in to continue.');
                 new bootstrap.Modal(document.getElementById('loginModal')).show();
-                return;
+                return false;
+            }
+            // Wait for the session result
+            const { data: { session } } = await client.auth.getSession();
+
+            if (session) {
+                const expiresAt = session.expires_at * 1000; // convert to ms
+                if (Date.now() > expiresAt) {
+                    showAlert('Session Expired. Please sign in to continue.');
+                    return false;
+                } else {
+                    return true; // session is valid
+                }
+            } else {
+                showAlert('Session not found. Please sign in to continue.');
+                return false;
             }
 
-            client.auth.getSession().then(({ data: { session } }) => {
-                if (session) {
-                    const expiresAt = session.expires_at * 1000; // convert to ms
-                    if (Date.now() > expiresAt) {
-                        showAlert('Session Expired. Please sign in to continue.');
-                    }
-                }
-            })
-            
         }
 
         async function addToCart(productId, quantity, action){
@@ -348,6 +354,8 @@
                 showAlert("Signup failed! Kindly check your details or try again later.");
             }else{
                 showAlert("🎉 Signup successful! Please verify your email to activate your account.");
+                bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+                new bootstrap.Modal(document.getElementById('loginModal')).show();
             }
         }catch(e){
             console.error(e);
@@ -437,7 +445,7 @@
         currentUser = null;
         localStorage.removeItem('currentUser');
         location.reload();
-        const { error } =  client.auth.signOut()
+        client.auth.signOut()
     }
 
 //});

@@ -99,8 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Lazy loading for images
     initializeLazyLoading();    
-
+    toggleSpinner();
 });
+
+function toggleSpinner(){
+    let spinner = document.getElementById('spinner-overlay');
+    spinner.style.display = spinner.style.display === 'flex' ? 'none' : 'flex';
+}
 
 // Show alert message
 function showAlert(message) {
@@ -111,8 +116,7 @@ function showAlert(message) {
                     ${message}
                 </div>
             </div>`;
-      const toast = new bootstrap.Toast(toastElement);
-      toast.show();
+      new bootstrap.Toast(toastElement).show();
     //});
 }
 
@@ -220,16 +224,15 @@ function viewProduct(productName, productImage, productPrice, productDescription
     document.getElementById('showRegister').addEventListener('click', function(e) {
         e.preventDefault();
         bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-        const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-        registerModal.show();
+        new bootstrap.Modal(document.getElementById('registerModal')).show();
+        
     });
 
 
  document.getElementById('showLogin').addEventListener('click', function(e) {
         e.preventDefault();
         bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
+        new bootstrap.Modal(document.getElementById('loginModal')).show();
     });
 
 // Initialize animations when DOM is loaded
@@ -240,8 +243,7 @@ document.addEventListener('DOMContentLoaded', animateOnScroll);
 
         if(!currentUser){
             // Show modal
-            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-            modal.show();
+            new bootstrap.Modal(document.getElementById('loginModal')).show();
             return;
         }
 
@@ -256,9 +258,7 @@ document.addEventListener('DOMContentLoaded', animateOnScroll);
         document.getElementById('profileEmail').textContent = user_metadata.email;
 
         // Show modal
-        const modal = new bootstrap.Modal(document.getElementById('profileModal'));
-        modal.show();
-
+        new bootstrap.Modal(document.getElementById('profileModal')).show();
     }
 
 

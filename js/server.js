@@ -43,7 +43,7 @@
                 products += `<div class="card col-6" id="${product.id}">
                                     <div class="card-header" >
                                         <img src="${product.productimage}" onclick="viewProduct('${product.productname}', '${product.productimage}', '${product.productprice}', '${product.productdescription}', '${product.id}')" 
-                                        data-bs-toggle="modal" data-bs-target="#productModal" width="100%" height="200" alt="Product 1">
+                                        data-bs-toggle="modal" data-bs-target="#productModal" width="100%" height="180" alt="Product 1">
                                     </div>
                                     <div class="card-body">
                                         <p class="product-text">${product.productname}</p>
@@ -71,61 +71,75 @@
         async function checkSignIn(){
 
             if(!currentUser){
-                showAlert('Unable to update. Please log in to continue.');
-                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                loginModal.show();
+                showAlert('Unsuccessful. Please sign in to continue.');
+                new bootstrap.Modal(document.getElementById('loginModal')).show();
+                return;
             }
+
+            client.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    const expiresAt = session.expires_at * 1000; // convert to ms
+                    if (Date.now() > expiresAt) {
+                        showAlert('Session Expired. Please sign in to continue.');
+                    }
+                }
+            })
             
         }
 
         async function addToCart(productId, quantity, action){
             console.log(currentUser,' addToCart called ',client);
-            
-            checkSignIn();
-            
+        
+            toggleSpinner();
+            try{
+                checkSignIn();
 
-            let updateCart = { productId: productId, quantity : quantity, user_id : currentUser.user.id };
+                let updateCart = { productId: productId, quantity : quantity, user_id : currentUser.user.id };
 
-            const cartItem = cartData.find(cart => cart.productId == productId);
-            if (cartItem) {
-                updateCart.cart_id = cartItem.cart_id;
-                if(action == 'add'){
-                    updateCart.quantity = cartItem.quantity + 1;
+                const cartItem = cartData.find(cart => cart.productId == productId);
+                if (cartItem) {
+                    updateCart.cart_id = cartItem.cart_id;
+                    if(action == 'add'){
+                        updateCart.quantity = cartItem.quantity + 1;
+                    }
                 }
-            }
 
-            client = supabase.createClient(supabaseUrl, supabaseKey, {
-                global: {
-                    headers: {
-                    Authorization: `Bearer ${currentUser.session.access_token}`,
+                client = supabase.createClient(supabaseUrl, supabaseKey, {
+                    global: {
+                        headers: {
+                        Authorization: `Bearer ${currentUser.session.access_token}`,
+                        },
                     },
-                },
-            });
-            
+                });
+                
 
-            let cartResponse = await client
-                .from("Cart")
-                .upsert([ updateCart ]);
+                let cartResponse = await client
+                    .from("Cart")
+                    .upsert([ updateCart ]);
 
-
-            
-
-            //let { data, error } = await client.from('Cart').select('cart_id').in('productId', [productId]);   
-
-             
-
-            if (cartResponse.error) {
-                if(cartResponse.error.message == 'JWT expired'){
-                    showAlert('Session expired. Please log in again to continue.');
-                }else{
-                    showAlert("Error inserting cart!");
+                //let { data, error } = await client.from('Cart').select('cart_id').in('productId', [productId]);   
+                
+                if (cartResponse.error) {
+                    if(cartResponse.error.message == 'JWT expired'){
+                        showAlert('Session expired. Please sign in again to continue.');
+                    }else{
+                        showAlert("Error inserting cart!");
+                    }
+                } else {
+                    console.log('data ',cartResponse.data);
+                    if(action == 'add'){
+                        showAlert('✨ Great choice! Your product is in the cart.');
+                    }else{
+                        showAlert('Cart updated successfully.');
+                    }
+                    //document.getElementById("sizeInput").value = "";
+                    //document.getElementById("quantityInput").value = "";
+                    loadCarts();
                 }
-            } else {
-                console.log('data ',cartResponse.data);
-                showAlert('✨ Great choice! Your product is in the cart.');
-                //document.getElementById("sizeInput").value = "";
-                //document.getElementById("quantityInput").value = "";
-                loadCarts();
+            }catch(e){
+                console.error(e);
+            }finally{
+                toggleSpinner();
             }
         }
 
@@ -205,7 +219,7 @@
                             <div class="card-body p-4">
                                 <h5 class="border-bottom"> <strong>${item.productname}</strong> </h5>
                                 <p class="border-bottom"><span class="fw-medium">Price:</span> ₹${item.productprice}</p>
-                                <p class="border-bottom"><span class="fw-medium">Quantity:</span> <input type="number" class="text-center" style="width:20%" value="${item.quantity}" min="1"></p>
+                                <p class="border-bottom"><span class="fw-medium">Quantity:</span> <input type="number" class="text-center" onblur="addToCart('${item.id}', this.value, 'update');"  style="width:20%" value="${item.quantity}" min="1"></p>
                                 <p class="border-bottom"><span class="fw-medium">Subtotal:</span> ₹${item.quantity * item.productprice}</p>
                             </div>
                         </div>
@@ -230,7 +244,7 @@
                             <td>${item.productname} </td>
                             <td>₹${item.productprice}</td>
                             <td>
-                            <input type="number" value="${item.quantity}" class="form-control text-center" style="width:80px;">
+                            <input type="number" value="${item.quantity}" onblur="addToCart('${item.id}', this.value, 'update');" class="form-control text-center" style="width:80px;">
                             </td>
                             <td>₹${item.quantity * item.productprice}</td>
                         </tr>`).join('') + `</tbody>
@@ -292,51 +306,54 @@
     }
 
     async function signUp() {
+        toggleSpinner();
+        try{
 
-        
+            const name = document.getElementById("registerFirstName").value.trim();
+            const lastName = document.getElementById("registerLastName").value.trim();
+            const email = document.getElementById("registerEmail").value.trim();
+            const phoneNumber = document.getElementById("registerPhoneNumber").value.trim();
+            const password = document.getElementById("registerPassword").value; // raw password (testing only)
+            const confirmPassword = document.getElementById("confirmPassword").value;
 
-        const name = document.getElementById("registerFirstName").value.trim();
-        const lastName = document.getElementById("registerLastName").value.trim();
-        const email = document.getElementById("registerEmail").value.trim();
-        const phoneNumber = document.getElementById("registerPhoneNumber").value.trim();
-        const password = document.getElementById("registerPassword").value; // raw password (testing only)
-        const confirmPassword = document.getElementById("confirmPassword").value;
+            console.log("name",name,"lastName", lastName,"email",email, "phoneNumber",phoneNumber,"password", password)
+            if (!name || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
+                showAlert("Please fill all fields!");
+                return;
+            }
+            
 
-    
-        console.log("name",name,"lastName", lastName,"email",email, "phoneNumber",phoneNumber,"password", password)
-        if (!name || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
-            showAlert("Please fill all fields!");
-            return;
+                // Validation
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match!', 'danger');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters long!', 'danger');
+                return;
+            }
+
+            let signUpResponse = await client.auth.signUp({ email, password,  options: {
+                            data: {
+                                first_name: name,
+                                last_name: lastName,
+                                phone: phoneNumber
+                            }
+                        } });
+            
+            console.log(' signUpResponse ', signUpResponse);
+
+            if(signUpResponse.error){
+                showAlert("Signup failed! Kindly check your details or try again later.");
+            }else{
+                showAlert("🎉 Signup successful! Please verify your email to activate your account.");
+            }
+        }catch(e){
+            console.error(e);
+        }finally{
+            toggleSpinner();
         }
-        
-
-            // Validation
-        if (password !== confirmPassword) {
-            showAlert('Passwords do not match!', 'danger');
-            return;
-        }
-
-        if (password.length < 6) {
-            showAlert('Password must be at least 6 characters long!', 'danger');
-            return;
-        }
-
-
-      let signUpResponse = await client.auth.signUp({ email, password,  options: {
-                    data: {
-                        first_name: name,
-                        last_name: lastName,
-                        phone: phoneNumber
-                    }
-                } });
-      
-      console.log(' signUpResponse ', signUpResponse);
-
-      if(signUpResponse.error){
-        showAlert("Signup failed! Kindly check your details or try again later.");
-      }else{
-        showAlert("🎉 Signup successful! Please verify your email to activate your account.");
-      }
 
     }
       
@@ -357,11 +374,13 @@
 
         if(orderResponse.error){
             if(orderResponse.error.message == 'JWT expired'){
-                showAlert('Session expired. Please log in again to continue.');
+                showAlert('Session expired. Please sign in again to continue.');
             }else{
                 showAlert("Error inserting cart!");
             }
         }
+
+        showAlert("Order Placed successfully");
 
         console.log('orderResponse ', orderResponse);
         let orderId = orderResponse.data[0].order_id;
@@ -408,7 +427,7 @@
                 .from("Cart")
                 .delete().in("cart_id",cartIds);
 
-        showAlert("Order place successfully");
+        
 
         loadCarts();
     }

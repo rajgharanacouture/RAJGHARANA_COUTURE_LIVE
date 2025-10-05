@@ -75,21 +75,15 @@
                 new bootstrap.Modal(document.getElementById('loginModal')).show();
                 return false;
             }
-            // Wait for the session result
-            const { data: { session } } = await client.auth.getSession();
 
-            if (session) {
-                const expiresAt = session.expires_at * 1000; // convert to ms
-                if (Date.now() > expiresAt) {
-                    showAlert('Session Expired. Please sign in to continue.');
-                    return false;
-                } else {
-                    return true; // session is valid
-                }
-            } else {
-                showAlert('Session not found. Please sign in to continue.');
+            const expiresAt = currentUser.session.expires_at *1000;//session.expires_at * 1000; // convert to ms
+            if (Date.now() > expiresAt) {
+                showAlert('Session Expired. Please sign in to continue.');
+                new bootstrap.Modal(document.getElementById('loginModal')).show();
                 return false;
             }
+
+            return true;
 
         }
 
@@ -98,49 +92,50 @@
         
             toggleSpinner();
             try{
-                checkSignIn();
+                if(checkSignIn()){
 
-                let updateCart = { productId: productId, quantity : quantity, user_id : currentUser.user.id };
+                    let updateCart = { productId: productId, quantity : quantity, user_id : currentUser.user.id };
 
-                const cartItem = cartData.find(cart => cart.productId == productId);
-                if (cartItem) {
-                    updateCart.cart_id = cartItem.cart_id;
-                    if(action == 'add'){
-                        updateCart.quantity = cartItem.quantity + 1;
+                    const cartItem = cartData.find(cart => cart.productId == productId);
+                    if (cartItem) {
+                        updateCart.cart_id = cartItem.cart_id;
+                        if(action == 'add'){
+                            updateCart.quantity = cartItem.quantity + 1;
+                        }
                     }
-                }
 
-                client = supabase.createClient(supabaseUrl, supabaseKey, {
-                    global: {
-                        headers: {
-                        Authorization: `Bearer ${currentUser.session.access_token}`,
+                    client = supabase.createClient(supabaseUrl, supabaseKey, {
+                        global: {
+                            headers: {
+                            Authorization: `Bearer ${currentUser.session.access_token}`,
+                            },
                         },
-                    },
-                });
-                
+                    });
+                    
 
-                let cartResponse = await client
-                    .from("Cart")
-                    .upsert([ updateCart ]);
+                    let cartResponse = await client
+                        .from("Cart")
+                        .upsert([ updateCart ]);
 
-                //let { data, error } = await client.from('Cart').select('cart_id').in('productId', [productId]);   
-                
-                if (cartResponse.error) {
-                    if(cartResponse.error.message == 'JWT expired'){
-                        showAlert('Session expired. Please sign in again to continue.');
-                    }else{
-                        showAlert("Error inserting cart!");
+                    //let { data, error } = await client.from('Cart').select('cart_id').in('productId', [productId]);   
+                    
+                    if (cartResponse.error) {
+                        if(cartResponse.error.message == 'JWT expired'){
+                            showAlert('Session expired. Please sign in again to continue.');
+                        }else{
+                            showAlert("Error inserting cart!");
+                        }
+                    } else {
+                        console.log('data ',cartResponse.data);
+                        if(action == 'add'){
+                            showAlert('✨ Great choice! Your product is in the cart.');
+                        }else{
+                            showAlert('Cart updated successfully.');
+                        }
+                        //document.getElementById("sizeInput").value = "";
+                        //document.getElementById("quantityInput").value = "";
+                        loadCarts();
                     }
-                } else {
-                    console.log('data ',cartResponse.data);
-                    if(action == 'add'){
-                        showAlert('✨ Great choice! Your product is in the cart.');
-                    }else{
-                        showAlert('Cart updated successfully.');
-                    }
-                    //document.getElementById("sizeInput").value = "";
-                    //document.getElementById("quantityInput").value = "";
-                    loadCarts();
                 }
             }catch(e){
                 console.error(e);
@@ -196,6 +191,7 @@
                     const cartElement = cartData[cartIndex];
                     if(dataElement.id == cartElement.productId){
                         data[index].quantity = cartElement.quantity;
+                        data[index].cart_id = cartElement.cart_id;
                     }
                 }
             }
@@ -228,6 +224,8 @@
                                 <p class="border-bottom"><span class="fw-medium">Quantity:</span> <input type="number" class="text-center" onblur="addToCart('${item.id}', this.value, 'update');"  style="width:20%" value="${item.quantity}" min="1"></p>
                                 <p class="border-bottom"><span class="fw-medium">Subtotal:</span> ₹${item.quantity * item.productprice}</p>
                             </div>
+                            <button type="button" class="btn-close position-absolute bottom-0 end-0 m-3" aria-label="Close"
+            onclick="removeFromCart('${item.cart_id}')"></button>
                         </div>
                     `).join('') + `</div> 
                     <!-- Desktop Table Layout -->
@@ -247,12 +245,15 @@
                             <td>
                             <img src="${item.productimage}" class="img-fluid" style="width:100px;" alt="Product image"><br>
                             </td>
-                            <td>${item.productname} </td>
+                            <td class="mss-proxima-nova-thin-italic-4-2-0">${item.productname} </td>
                             <td>₹${item.productprice}</td>
                             <td>
-                            <input type="number" value="${item.quantity}" onblur="addToCart('${item.id}', this.value, 'update');" class="form-control text-center" style="width:80px;">
+                            <input type="number" min="1" value="${item.quantity}" onblur="addToCart('${item.id}', this.value, 'update');" class="form-control text-center" style="width:80px;">
                             </td>
                             <td>₹${item.quantity * item.productprice}</td>
+                            <td>
+                                <button type="button" class="btn-close" aria-label="Close" onclick="removeFromCart('${item.cart_id}')"></button>
+                            </td>
                         </tr>`).join('') + `</tbody>
                     </table>
                     </div>`;
@@ -261,6 +262,22 @@
         const total = data.reduce((sum, item) => sum + (item.productprice * item.quantity), 0);
         document.getElementById('cartTotal').textContent = total.toFixed(2);
 
+        }
+
+        async function removeFromCart(cartId){
+            toggleSpinner();
+            try{
+                console.log('removeFromCart called',cartId);
+                if(checkSignIn()){
+                    console.log(await client.from("Cart").delete().eq("cart_id",cartId));
+                    loadCarts();
+                    showAlert("Product successfully removed!");
+                }
+            }catch(e){
+                console.error(e);
+            }finally{
+                toggleSpinner();
+            }
         }
     
 
@@ -372,72 +389,70 @@
             return;
         }
 
-        checkSignIn();
-
-        await client
+        if(checkSignIn()){
+            await client
                 .from("Order")
                 .insert([ {user_id : currentUser.user.id} ]);
 
-        const orderResponse = await client.from("Order").select("*").order("created_at", { ascending: false });
+            const orderResponse = await client.from("Order").select("*").order("created_at", { ascending: false });
 
-        if(orderResponse.error){
-            if(orderResponse.error.message == 'JWT expired'){
-                showAlert('Session expired. Please sign in again to continue.');
-            }else{
-                showAlert("Error inserting cart!");
-            }
-        }
-
-        showAlert("Order Placed successfully");
-
-        console.log('orderResponse ', orderResponse);
-        let orderId = orderResponse.data[0].order_id;
-
-        let productIds = [];
-            cartData.forEach(cart => {
-                productIds.push(cart.productId);
-            });
-            
-        let productResponse = await client.from('Products').select('*').in('id', productIds);
-
-        //data = JSON.parse( JSON.stringify(data));
-            for (let index = 0; index < productResponse.data.length; index++) {
-                let dataElement = productResponse.data[index];
-                for (let cartIndex = 0; cartIndex < cartData.length; cartIndex++) {
-                    const cartElement = cartData[cartIndex];
-                    if(dataElement.id == cartElement.productId){
-                        cartData[index].price = dataElement.productprice;
-                        cartData[index].productname = dataElement.productname;
-                    }
+            if(orderResponse.error){
+                if(orderResponse.error.message == 'JWT expired'){
+                    showAlert('Session expired. Please sign in again to continue.');
+                }else{
+                    showAlert("Error inserting cart!");
                 }
             }
 
+            showAlert("Order Placed successfully");
 
-        let orderLineItems = [];
-        cartData.forEach( cart=> {
-            orderLineItems.push( { product_id: cart.productId, 
-                quantity : cart.quantity, user_id : currentUser.user.id, price : cart.price,
-                product_name: cart.productname, order_id : orderId  });
-        });
+            console.log('orderResponse ', orderResponse);
+            let orderId = orderResponse.data[0].order_id;
 
-        let Order_Line_ItemResponse = await client
-                .from("Order_Line_Item")
-                .insert( orderLineItems );
+            let productIds = [];
+                cartData.forEach(cart => {
+                    productIds.push(cart.productId);
+                });
+                
+            let productResponse = await client.from('Products').select('*').in('id', productIds);
 
-        console.log(' Order_Line_ItemResponse called ',Order_Line_ItemResponse);        
+            //data = JSON.parse( JSON.stringify(data));
+                for (let index = 0; index < productResponse.data.length; index++) {
+                    let dataElement = productResponse.data[index];
+                    for (let cartIndex = 0; cartIndex < cartData.length; cartIndex++) {
+                        const cartElement = cartData[cartIndex];
+                        if(dataElement.id == cartElement.productId){
+                            cartData[index].price = dataElement.productprice;
+                            cartData[index].productname = dataElement.productname;
+                        }
+                    }
+                }
 
-        let cartIds = [];
-        cartData.forEach(cart => {
-            cartIds.push(cart.cart_id);
-        });
 
-        await client
-                .from("Cart")
-                .delete().in("cart_id",cartIds);
+            let orderLineItems = [];
+            cartData.forEach( cart=> {
+                orderLineItems.push( { product_id: cart.productId, 
+                    quantity : cart.quantity, user_id : currentUser.user.id, price : cart.price,
+                    product_name: cart.productname, order_id : orderId  });
+            });
 
-        
+            let Order_Line_ItemResponse = await client
+                    .from("Order_Line_Item")
+                    .insert( orderLineItems );
 
-        loadCarts();
+            console.log(' Order_Line_ItemResponse called ',Order_Line_ItemResponse);        
+
+            let cartIds = [];
+            cartData.forEach(cart => {
+                cartIds.push(cart.cart_id);
+            });
+
+            await client
+                    .from("Cart")
+                    .delete().in("cart_id",cartIds);
+
+            loadCarts();
+        }
     }
 
     function handleLogout(){

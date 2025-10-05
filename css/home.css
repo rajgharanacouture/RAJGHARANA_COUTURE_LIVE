@@ -120,7 +120,18 @@ a:link, a:visited, a:link:active, a:visited:active{
 /* What to Wear Now Section */
 .what-to-wear-now {
   padding: 0.2rem 0;
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; 
+}
+
+:root {
+    --playfair-display: 'Playfair Display', serif;
+}
+
+.font-playfair, .what-to-wear-now{
+  font-family: var(--playfair-display);
+}
+.modal-title{
+  font-family: var(--playfair-display);
 }
 
 .what-to-wear-now h4 {

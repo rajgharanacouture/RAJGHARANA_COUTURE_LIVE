@@ -52,6 +52,7 @@
     overflow: hidden;
     width: 100%;
     height: 1.8rem;
+    font-family: 'mss-proxima-nova-thin-italic-4-2-0';
 }
 
 /* General Section Styles */
@@ -153,6 +154,7 @@ section {
     font-weight: 500;
     transition: all 0.3s ease;
     flex: 1;
+    font-family: 'Roboto', sans-serif;
 }
 
 #checkoutBtn{

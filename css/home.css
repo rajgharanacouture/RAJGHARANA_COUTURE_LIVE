@@ -127,7 +127,7 @@ a:link, a:visited, a:link:active, a:visited:active{
     --playfair-display: 'Playfair Display', serif;
 }
 
-.font-playfair, .what-to-wear-now{
+.font-playfair{
   font-family: var(--playfair-display);
 }
 .modal-title{
@@ -140,6 +140,7 @@ a:link, a:visited, a:link:active, a:visited:active{
   margin-bottom: 2rem;
   text-align: center;
   color: #333;
+  font-family: var(--playfair-display);
 }
 
 /* Instagram Shop Section */

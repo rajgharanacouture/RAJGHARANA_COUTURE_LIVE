@@ -50,8 +50,11 @@
 
 .product-text{
     overflow: hidden;
-    width: 100%;
     height: 1.8rem;
+    width: 100%;
+}
+
+.mss-proxima-nova-thin-italic-4-2-0, .product-text{
     font-family: 'mss-proxima-nova-thin-italic-4-2-0';
 }
 

@@ -274,3 +274,7 @@ a:link, a:visited, a:link:active, a:visited:active{
 .instagram-media{
   width: 100%;
 }
+
+.home-image{
+  padding-top: 4rem;
+}

@@ -1,7 +1,7 @@
 // Main JavaScript functionality for Raj Gharana website
 
 //document.addEventListener('DOMContentLoaded', function() {
-
+const cartCount = document.getElementById('cartCount');
     window.cartData = [];
     console.log('server js loaded ');
     const supabaseUrl = "https://dklcbcbgpdrqsqupaaeb.supabase.co";
@@ -157,9 +157,19 @@
 
             console.log('loadCarts called' , cartData);
 
-            let cartCount = document.getElementById('cartCount');
-            cartCount.style.display = cartData && cartData.length > 0 ? 'unset' : 'none';
+            if(cartData && cartData.length > 0){
+                cartCount.style.display = 'unset';
+                emptyCart.style.display = 'none';
+            }else{
+                cartCount.style.display = 'none';
+                emptyCart.style.display = 'block';
+            }
+            
+
+
             cartCount.textContent = '' + cartData.length;
+
+            
             
             /*const list = document.getElementById("cardList");
             list.innerHTML = "";

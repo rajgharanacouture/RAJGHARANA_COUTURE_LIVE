@@ -1,5 +1,5 @@
 // Main JavaScript functionality for Raj Gharana website
-
+window.emptyCart = document.getElementById('emptyCart');
 document.addEventListener('DOMContentLoaded', function() {
     // Navbar scroll effect
     const navbar = document.getElementById('mainNavbar');

@@ -13,15 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Mountains+of+Christmas:wght@400&display=swap" rel="stylesheet">
-    <!-- Slick Carousel CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/cart.css">
+    <link media="print" onload="this.media='all'" rel="stylesheet" href="css/styles.css">
+    <link media="print" onload="this.media='all'" rel="stylesheet" href="css/navbar.css">
+    <link media="print" onload="this.media='all'" rel="stylesheet" href="css/home.css">
+    <link media="print" onload="this.media='all'" rel="stylesheet" href="css/footer.css">
+    <link media="print" onload="this.media='all'" rel="stylesheet" href="css/cart.css">
 </head>
 <body id="home">
     <!-- Navigation -->
@@ -31,7 +29,7 @@
                     <span class="navbar-toggler-icon"></span>
                  </button>
                 <a class="navbar-brand" href="#home">
-                    <img src="images/Logo.png" alt="Logo" class="logo-large" id="navbarLogo">
+                    <img src="https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/Logo.png" alt="Logo" class="logo-large" id="navbarLogo">
                 </a>
                 
                 <a class="nav-link custom-font outside-icon" href="">
@@ -84,7 +82,8 @@
 
             <!-- Hero Background -->
             
-                <img class="home-image" width="100%" src="images/Home-bg0.jpg"> 
+                <img class="home-image" width="100%" src="https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/Home-bg0.jpg"> 
+
                 
                 
             
@@ -116,10 +115,10 @@
                 <div class="container-fluid">
                     <div class="row mt-4">
                         <div class="col-md-6">
-                            <img src="images/model1.jpg" class="p-1" width="100%" alt="Model 1">
+                            <img src="https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/model1.jpg" loading="lazy" class="p-1" width="100%" alt="Model 1">
                         </div>
                         <div class="col-md-6">
-                            <img src="images/model2.jpg" class="p-1" width="100%" alt="Model 2">
+                            <img src="https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/model2.jpg" loading="lazy" class="p-1" width="100%" alt="Model 2">
                         </div>
                     </div>
                 </div>
@@ -146,7 +145,7 @@
                             
                         </div>
                         <div class="col-lg-6">
-                            <img src="images\Showroom.jpg" 
+                            <img loading="lazy" src="https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/Showroom.jpg" 
                                 alt="About Us" class="img-fluid rounded">
                         </div>
                     </div>
@@ -193,208 +192,7 @@
         </section>
     </main>
 
-    <!-- Product Modal start-->
-    <div class="modal fade" id="productModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header d-flex ">
-                    <h5 class="modal-title" id="productModalTitle">Product Details</h5>
-                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i>    
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img id="productModalImage" src="" alt="Product" class="img-fluid rounded">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 id="productModalName"></h4>
-                            <p class="text-muted" id="productModalCategory"></p>
-                            <h5 id="productModalPrice"></h5>
-                            <p id="productModalDescription"></p>
-                            <!--<div class="mb-3">
-                                <label class="form-label">Size:</label>
-                                <select class="form-select" id="productSize">
-                                    <option value="S">Small</option>
-                                    <option value="M">Medium</option>
-                                    <option value="L">Large</option>
-                                    <option value="XL">Extra Large</option>
-                                </select>
-                            </div>-->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Quantity:</label>
-                                <input type="number" class="form-control" id="productQuantity" value="1" min="1">
-                            </div>
-                            <button class="btn btn-view w-100" onclick="addToCart(2)" id="addToCartBtn">
-                                <i class="fas fa-cart-plus"></i> &nbsp; Update Cart    
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Modal stop-->
-
-     <!-- Login Modal start-->
-    <div class="modal fade" id="loginModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Sign In To Continue Shopping</h5>
-                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
-                </div>
-                <div class="modal-body">
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label for="loginEmail" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="loginEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" required>
-                        </div>
-                        <div class="d-grid">
-                            <button type="button" onclick="signIn();" class="btn btn-view">Login</button>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <p class="mb-0">Don't have an account? <a href="#" id="showRegister">Register here</a></p>
-                        <!--<p class="mb-0"><a href="#" id="forgotPassword">Forgot your password?</a></p>-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Login Modal stop-->
-
-    <!-- Registration Modal start-->
-    <div class="modal fade" id="registerModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Register</h5>
-                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
-                </div>
-                <div class="modal-body">
-                    <form id="registerForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="registerFirstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="registerFirstName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="registerLastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="registerLastName" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerEmail" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="registerEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerPhoneNumber" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="registerPhoneNumber" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="registerPassword" required minlength="6">
-                            <div class="form-text">Password must be at least 6 characters long.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" required>
-                        </div>
-                        <div class="d-grid">
-                            <button type="button" onclick="signUp();" class="btn btn-view">Let’s Get You Signed In</button>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <p class="mb-0">Already have an account? <a href="#" id="showLogin">Login here</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Registration Modal stop-->
-
-    <!-- Profile Modal start -->
-    <div class="modal fade" id="profileModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">User Profile</h5>
-                    <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4 text-center">
-                            <!--<div class="profile-avatar mb-3">
-                                <i class="fas fa-user-circle fa-5x text-primary"></i>
-                            </div>-->
-                            <h5 id="profileName">John Doe</h5>
-                            <p class="text-muted" id="profileEmail">john@example.com</p>
-                        </div>
-                        <div class="col-md-8">
-                            <form id="profileForm">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="profileFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="profileFirstName" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="profileLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="profileLastName" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="profileEmailInput" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="profileEmailInput" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="profilePhone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="profilePhone">
-                                </div>
-                                <div class="d-grid">
-                                    <button type="button" onclick="handleLogout();" class="btn btn-view">Log Out</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Profile Modal stop-->
-
-    <!-- Cart Modal start -->
-    <div class="modal fade" id="cartModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Checkout List</h5>
-                     <i class="fa fa-close closeIcon" data-bs-dismiss="modal"></i> 
-                </div>
-                <div class="modal-body">
-                    <div id="cartItems">
-                        <!-- Cart items will be displayed here -->
-                    </div>
-
-                    <div class="text-center" id="emptyCart">
-                        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">Your cart is empty</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="d-flex justify-content-between w-100">
-                        <h5>Total: ₹<span id="cartTotal">0.00</span></h5>
-                        <button class="btn btn-view" onclick="processCheckout();" data-bs-dismiss="modal" id="checkoutBtn">Place Order</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Cart Modal stop -->
+   
 
     <!-- Toast Message start -->
     <div class="toast-container position-fixed top-0 end-0">
@@ -439,6 +237,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
                                             <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
                                         </svg></a> 
+
                                     
                                     <a href="https://www.instagram.com/rajgharana_couture_/?hl=en"> 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
@@ -476,8 +275,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery (required for Slick Carousel) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Slick Carousel JS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
     <!-- Server JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Instagram JS -->
@@ -485,5 +283,6 @@
     <!-- Custom JS -->
     <script src="js/script.js"></script>
     <script src="js/server.js"></script>
+    <script async src="js/lazyloading.js"></script>
 </body>
 </html>

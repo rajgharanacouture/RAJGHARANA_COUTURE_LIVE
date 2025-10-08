@@ -42,7 +42,7 @@ const cartCount = document.getElementById('cartCount');
                 
                 products += `<div class="card col-6" id="${product.id}">
                                     <div class="card-header" >
-                                        <img src="${product.productimage}" onclick="viewProduct('${product.productname}', '${product.productimage}', '${product.productprice}', '${product.productdescription}', '${product.id}')" 
+                                        <img loading="lazy" src="${product.productimage}" onclick="viewProduct('${product.productname}', '${product.productimage}', '${product.productprice}', '${product.productdescription}', '${product.id}')" 
                                         data-bs-toggle="modal" data-bs-target="#productModal" width="100%" height="180" alt="Product 1">
                                     </div>
                                     <div class="card-body">
@@ -227,7 +227,7 @@ const cartCount = document.getElementById('cartCount');
             cartItems.innerHTML = `<!-- Mobile Card Layout -->
                 <div class="container d-block d-md-none">` + data.map(item =>`
                         <div class="card mb-3">
-                            <img src="${item.productimage}" class="card-img-top img-thumbnail border-bottom" alt="Product image">
+                            <img loading="lazy" src="${item.productimage}" class="card-img-top img-thumbnail border-bottom" alt="Product image">
                             <div class="card-body p-4">
                                 <h5 class="border-bottom"> <strong>${item.productname}</strong> </h5>
                                 <p class="border-bottom"><span class="fw-medium">Price:</span> ₹${item.productprice}</p>
@@ -253,7 +253,7 @@ const cartCount = document.getElementById('cartCount');
                         <tbody>
                     ` +  data.map(item =>  `<tr>
                             <td>
-                            <img src="${item.productimage}" class="img-fluid" style="width:100px;" alt="Product image"><br>
+                            <img loading="lazy" src="${item.productimage}" class="img-fluid" style="width:100px;" alt="Product image"><br>
                             </td>
                             <td class="mss-proxima-nova-thin-italic-4-2-0">${item.productname} </td>
                             <td>₹${item.productprice}</td>

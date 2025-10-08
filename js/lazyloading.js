@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+
     const modalsHTML = `
      <!-- Product Modal start-->
     <div class="modal fade" id="productModal">
@@ -206,7 +206,21 @@ window.addEventListener('load', function() {
 
     // Append modals to body
     document.body.insertAdjacentHTML('beforeend', modalsHTML);
-});
+    // Modal switching
+    document.getElementById('showRegister').addEventListener('click', function(e) {
+        e.preventDefault();
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+        new bootstrap.Modal(document.getElementById('registerModal')).show();
+        
+    });
+
+
+    document.getElementById('showLogin').addEventListener('click', function(e) {
+        e.preventDefault();
+        bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+        new bootstrap.Modal(document.getElementById('loginModal')).show();
+    });
+
 
 function viewProduct(productName, productImage, productPrice, productDescription, productId) {
     
@@ -247,18 +261,5 @@ function viewProduct(productName, productImage, productPrice, productDescription
     });*/
 }
 
-// Modal switching
-    document.getElementById('showRegister').addEventListener('click', function(e) {
-        e.preventDefault();
-        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-        new bootstrap.Modal(document.getElementById('registerModal')).show();
-        
-    });
 
-
- document.getElementById('showLogin').addEventListener('click', function(e) {
-        e.preventDefault();
-        bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
-        new bootstrap.Modal(document.getElementById('loginModal')).show();
-    });
 

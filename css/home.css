@@ -125,6 +125,7 @@ a:link, a:visited, a:link:active, a:visited:active{
 
 :root {
     --playfair-display: 'Playfair Display', serif;
+    --carousel-control-color : 'black';
 }
 
 .font-playfair{
@@ -278,3 +279,4 @@ a:link, a:visited, a:link:active, a:visited:active{
 .home-image{
   padding-top: 3.9rem;
 }
+

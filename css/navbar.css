@@ -37,8 +37,12 @@
   color: rgba(230, 195, 80,0.8) !important;
 }
 
-.scrolled-link {
+.scrolled-link, .carousal-button {
    color: rgb(230, 195, 80) !important;
+}
+
+.carousal-button{
+  opacity: unset !important;
 }
 
 .scrolled-link:hover {

@@ -144,6 +144,8 @@ const cartCount = document.getElementById('cartCount');
             }
         }
 
+        let emptyCart = document.getElementById('emptyCart');
+
         async function loadCarts() {
 
             if(!currentUser){
@@ -159,10 +161,10 @@ const cartCount = document.getElementById('cartCount');
 
             if(cartData && cartData.length > 0){
                 cartCount.style.display = 'unset';
-                emptyCart.style.display = 'none';
+                if(emptyCart) emptyCart.style.display = 'none';
             }else{
                 cartCount.style.display = 'none';
-                emptyCart.style.display = 'block';
+                if(emptyCart) emptyCart.style.display = 'block';
             }
             
 

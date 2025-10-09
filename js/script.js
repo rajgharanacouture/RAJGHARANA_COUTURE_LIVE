@@ -1,5 +1,4 @@
 // Main JavaScript functionality for Raj Gharana website
-window.emptyCart = document.getElementById('emptyCart');
 document.addEventListener('DOMContentLoaded', function() {
     // Navbar scroll effect
     const navbar = document.getElementById('mainNavbar');
@@ -124,10 +123,8 @@ function showAlert(message) {
 function initializeCarousels() {
     // This function can be used to initialize any carousel functionality
     // Currently not needed as the design doesn't use carousels
-    console.log('Carousel initialization ready');
-    const slides = document.querySelector('.home-image');
-    const slideCount = 9;
-    let currentIndex = 0;
+    /*console.log('Carousel initialization ready');
+    
     //setInterval(autoSlide, 4000);
 
     function showSlide(index) {
@@ -137,8 +134,11 @@ function initializeCarousels() {
     function autoSlide() {
       currentIndex = (currentIndex + 1) % slideCount;
       showSlide(currentIndex);
-    }
+    }*/
 }
+
+
+
 
 // Initialize lazy loading for images
 function initializeLazyLoading() {

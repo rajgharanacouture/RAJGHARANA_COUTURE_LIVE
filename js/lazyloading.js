@@ -214,6 +214,54 @@
         
     });
 
+    //for carousal start
+
+    const slideCount = 9;
+    let currentIndex = 0;
+
+    function changeSlide(direction) {
+        //const direction = button.getAttribute("data-bs-slide");
+        {
+            let currentButton = document.querySelector(`[data-bs-slide-to="${currentIndex}"]`);
+            currentButton.classList.remove('active');
+        }
+        if (direction == "next") {
+            currentIndex = (currentIndex + 1) % slideCount;
+        } else if (direction == "prev") {
+            currentIndex = ((currentIndex + slideCount) - 1) % slideCount;
+        }else {
+            currentIndex = direction;
+        }
+        {
+            let newActiveButton = document.querySelector(`[data-bs-slide-to="${currentIndex}"]`);
+            newActiveButton.classList.add('active');
+        }
+
+        document.querySelector('.home-image').src = `https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/Home-bg${currentIndex}.jpg`;
+        
+    }
+    const carouselElement = document.getElementById('carouselExample');
+
+    var startX = 0;
+    carouselElement.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+    });
+    carouselElement.addEventListener('touchend', e => {
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+
+        if (Math.abs(diffX) > 50) { // minimum swipe distance
+            if (diffX > 0) {        
+                changeSlide('next');
+            } else {
+                changeSlide('prev');
+            }
+        }
+    });
+    //for carousal end
+
+
+
 
     document.getElementById('showLogin').addEventListener('click', function(e) {
         e.preventDefault();

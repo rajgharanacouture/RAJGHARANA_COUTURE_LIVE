@@ -2,7 +2,7 @@
 .footer-section {
     background-color: black;
     padding: 7rem 5rem;
-    background-image: url(../images/Black_Logo.png);
+    /*background-image: url(../images/Black_Logo.png);*/
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: contain;
@@ -94,6 +94,10 @@
   flex-wrap: wrap;
 }
 
+.footer-logo{
+    width: 70%;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .footer-section {
@@ -121,6 +125,9 @@
     }
     
     .footer-section .form input {
+        width: 100%;
+    }
+    .footer-logo{
         width: 100%;
     }
 }

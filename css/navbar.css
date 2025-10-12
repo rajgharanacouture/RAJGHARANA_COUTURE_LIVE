@@ -2,7 +2,7 @@
 .custom-navbar {
   background-color: transparent;
   transition: background-color 0.3s ease;
-  padding-top: 3rem;
+  /*padding-top: 3rem;*/
   z-index: 999;
 }
 

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.add('navbar-scrolled');
             logo.classList.remove('logo-large');
             logo.classList.add('logo-small');
-            
             // Update nav links for scrolled state
             //navLinks.forEach(link => {
               //  link.classList.add('scrolled-link');
@@ -206,13 +205,13 @@ document.addEventListener('DOMContentLoaded', animateOnScroll);
 
 
         let user_metadata = currentUser.user.user_metadata;
-        document.getElementById('profileFirstName').value = user_metadata.first_name;
-        document.getElementById('profileLastName').value = user_metadata.last_name;
+        document.getElementById('profileNameInput').value = user_metadata.name;
         document.getElementById('profileEmailInput').value = user_metadata.email;
-        document.getElementById('profilePhone').value = user_metadata.phone || '';
+        document.getElementById('profilePhone').value = user_metadata.phone;
+        document.getElementById('profileAddress').value = user_metadata.address;
 
         // Update display
-        document.getElementById('profileName').textContent = `${user_metadata.first_name} ${user_metadata.last_name}`;
+        document.getElementById('profileName').textContent = user_metadata.name;
         document.getElementById('profileEmail').textContent = user_metadata.email;
 
         // Show modal

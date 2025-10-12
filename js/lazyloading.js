@@ -85,15 +85,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="registerForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="registerFirstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="registerFirstName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="registerLastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="registerLastName" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="registerName" required>
                         </div>
                         <div class="mb-3">
                             <label for="registerEmail" class="form-label">Email Address</label>
@@ -102,6 +96,10 @@
                         <div class="mb-3">
                             <label for="registerPhoneNumber" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="registerPhoneNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerAddress" class="form-label">Delivery Address</label>
+                            <textarea class="form-control" id="registerAddress" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="registerPassword" class="form-label">Password</label>
@@ -139,32 +137,36 @@
                             <!--<div class="profile-avatar mb-3">
                                 <i class="fas fa-user-circle fa-5x text-primary"></i>
                             </div>-->
-                            <h5 id="profileName">John Doe</h5>
-                            <p class="text-muted" id="profileEmail">john@example.com</p>
+                            <h5 id="profileName"></h5>
+                            <p class="text-muted" id="profileEmail"></p>
                         </div>
                         <div class="col-md-8">
                             <form id="profileForm">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="profileFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="profileFirstName" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="profileLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="profileLastName" required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="profileNameInput" class="form-label">Name</label>
+                                    <input type="text" disabled class="form-control" id="profileNameInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="profileEmailInput" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="profileEmailInput" required>
+                                    <input type="email" disabled class="form-control" id="profileEmailInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="profilePhone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="profilePhone">
+                                    <input type="text" disabled class="form-control" id="profilePhone">
                                 </div>
-                                <div class="d-grid">
-                                    <button type="button" onclick="handleLogout();" class="btn btn-view">Log Out</button>
+                                <div class="mb-3">
+                                    <label for="profileAddress" class="form-label">Delivery Address</label>
+                                    <textarea class="form-control" required id="profileAddress"></textarea>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <button type="button" onclick="updateProfile();" class="btn btn-view form-control">Update Profile</button>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button type="button" onclick="handleLogout();" class="btn btn-view form-control">Log Out</button>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                     </div>

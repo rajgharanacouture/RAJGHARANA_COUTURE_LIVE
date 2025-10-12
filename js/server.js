@@ -320,9 +320,9 @@ const cartCount = document.getElementById('cartCount');
         
 
         if (signInResponse.error) {
-        console.error(signInResponse.error);
-        showAlert("Sign-in unsuccessful. Please verify your details.!");
-        return;
+            console.error(signInResponse.error);
+            showAlert("Sign-in unsuccessful. " + signInResponse.error.message);
+            return;
         }
 
         if (signInResponse.data) {
@@ -331,7 +331,7 @@ const cartCount = document.getElementById('cartCount');
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             loadCarts();
             //window.currentUserId = user.user_id; // Save logged-in user id
-            showAlert(`Welcome ${signInResponse.data.user.user_metadata.first_name} 😃`);
+            showAlert(`Welcome ${signInResponse.data.user.user_metadata.name} 😃`);
 
             createClient();
             bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
@@ -340,19 +340,51 @@ const cartCount = document.getElementById('cartCount');
         }
     }
 
+    async function updateProfile() {
+        let profileAddress = document.getElementById("profileAddress").value.trim();
+        if(!profileAddress){
+            showAlert("Please fill all fields!");
+            return;
+        } 
+
+        if(checkSignIn()){
+            toggleSpinner();
+            try{
+
+                const { data, error } = await client.auth.updateUser({
+                data: {
+                    address: profileAddress
+                }
+                });
+
+                if (error) {
+                    showAlert("Error updating profile info:" + error.message);
+                } else {
+                    showAlert("Profile updated successfully!");
+                    currentUser.user.user_metadata.address = profileAddress;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+            }catch(e){
+                console.error(e);
+            }finally{
+                toggleSpinner();
+            }
+        }
+    }
+
     async function signUp() {
         toggleSpinner();
         try{
 
-            const name = document.getElementById("registerFirstName").value.trim();
-            const lastName = document.getElementById("registerLastName").value.trim();
+            const name = document.getElementById("registerName").value.trim();
             const email = document.getElementById("registerEmail").value.trim();
             const phoneNumber = document.getElementById("registerPhoneNumber").value.trim();
             const password = document.getElementById("registerPassword").value; // raw password (testing only)
             const confirmPassword = document.getElementById("confirmPassword").value;
+            const address = document.getElementById("registerAddress").value.trim();
 
-            console.log("name",name,"lastName", lastName,"email",email, "phoneNumber",phoneNumber,"password", password)
-            if (!name || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
+            console.log("name",name,"address", address,"email",email, "phoneNumber",phoneNumber,"password", password)
+            if (!name || !email || !phoneNumber || !password || !confirmPassword || !address) {
                 showAlert("Please fill all fields!");
                 return;
             }
@@ -360,19 +392,19 @@ const cartCount = document.getElementById('cartCount');
 
                 // Validation
             if (password !== confirmPassword) {
-                showAlert('Passwords do not match!', 'danger');
+                showAlert('Passwords do not match!');
                 return;
             }
 
             if (password.length < 6) {
-                showAlert('Password must be at least 6 characters long!', 'danger');
+                showAlert('Password must be at least 6 characters long!');
                 return;
             }
 
             let signUpResponse = await client.auth.signUp({ email, password,  options: {
                             data: {
-                                first_name: name,
-                                last_name: lastName,
+                                name: name,
+                                address: address,
                                 phone: phoneNumber
                             }
                         } });

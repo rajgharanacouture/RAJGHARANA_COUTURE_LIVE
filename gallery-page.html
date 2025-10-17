@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Management - Raj Gharana Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #f8f9fa;
+            --accent-color: #e74c3c;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            --shadow-hover: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: var(--text-dark);
+        }
+
+        /* Sidebar Styles */
+        #sidebar {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            z-index: 1000;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: var(--accent-color);
+        }
+
+        .menu-item i {
+            width: 20px;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        #main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .top-navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        /* Tabs Navigation */
+        .gallery-tabs {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .nav-tabs {
+            border: none;
+            background: #f8f9fa;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 0;
+            padding: 1rem 2rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--accent-color);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        /* Instagram Section */
+        .instagram-section {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .instagram-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .instagram-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e4405f;
+            font-size: 1.5rem;
+        }
+
+        .instagram-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Image Upload Section */
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-color);
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--accent-color);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* Gallery Grid */
+        .gallery-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .gallery-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 2rem;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-view { background: #3498db; }
+        .btn-edit { background: #f39c12; }
+        .btn-delete { background: #e74c3c; }
+        .btn-download { background: #2ecc71; }
+
+        .btn-action:hover {
+            transform: scale(1.1);
+        }
+
+        .gallery-info {
+            padding: 1rem;
+            background: white;
+        }
+
+        .gallery-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .gallery-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .gallery-category {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .category-hero { background: #d4edda; color: #155724; }
+        .category-product { background: #d1ecf1; color: #0c5460; }
+        .category-lifestyle { background: #f8d7da; color: #721c24; }
+        .category-bridal { background: #e2e3f1; color: #383d41; }
+
+        /* Layout Options */
+        .layout-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .layout-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .layout-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        /* Instagram Link Management */
+        .instagram-links {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .link-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .link-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .link-details h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .link-details small {
+            color: var(--text-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            #sidebar.show {
+                transform: translateX(0);
+            }
+
+            #main-content {
+                margin-left: 0;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .page-content {
+                padding: 1rem;
+            }
+
+            .top-navbar {
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .instagram-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <h3>Raj Gharana</h3>
+            <div class="subtitle">Admin Dashboard</div>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="admin-panel.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="products-page.html" class="menu-item">
+                <i class="fas fa-box"></i>
+                Products
+            </a>
+            <a href="orders-page.html" class="menu-item">
+                <i class="fas fa-shopping-cart"></i>
+                Orders
+            </a>
+            <a href="customers-page.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                Customers
+            </a>
+            <a href="gallery-page.html" class="menu-item active">
+                <i class="fas fa-images"></i>
+                Gallery
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                Analytics
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <button class="mobile-menu-toggle me-3">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="#" class="navbar-brand">Gallery Management</a>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">RG</div>
+                    <div>
+                        <div class="fw-bold">Raj Gharana</div>
+                        <small class="text-muted">Administrator</small>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Gallery Management</h1>
+            </div>
+
+            <!-- Instagram Section -->
+            <div class="instagram-section">
+                <div class="instagram-header">
+                    <div class="instagram-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0">Instagram Integration</h4>
+                        <p class="mb-0">Manage your Instagram presence and showcase your collection</p>
+                    </div>
+                </div>
+                
+                <div class="instagram-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">2.5K</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.8</div>
+                        <div class="stat-label">Avg. Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Tabs -->
+            <div class="gallery-tabs">
+                <ul class="nav nav-tabs" id="galleryTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="images-tab" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">
+                            <i class="fas fa-images me-2"></i>Website Images
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="instagram-tab" data-bs-toggle="tab" data-bs-target="#instagram" type="button" role="tab">
+                            <i class="fab fa-instagram me-2"></i>Instagram Links
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
+                            <i class="fas fa-upload me-2"></i>Upload Images
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="galleryTabContent">
+                    <!-- Website Images Tab -->
+                    <div class="tab-pane fade show active" id="images" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Website Gallery</h5>
+                            <div class="layout-options">
+                                <button class="layout-btn active" onclick="changeLayout('grid')">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="layout-btn" onclick="changeLayout('list')">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                                <button class="layout-btn" onclick="changeLayout('masonry')">
+                                    <i class="fas fa-th-large"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="gallery-container">
+                            <div class="gallery-header">
+                                <h6 class="mb-0">All Images (24)</h6>
+                                <div class="d-flex gap-2">
+                                    <select class="form-select form-select-sm" style="width: auto;">
+                                        <option>All Categories</option>
+                                        <option>Hero Images</option>
+                                        <option>Product Photos</option>
+                                        <option>Lifestyle Shots</option>
+                                        <option>Bridal Collection</option>
+                                    </select>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="refreshGallery()">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="gallery-grid" id="galleryGrid">
+                                <!-- Gallery items will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instagram Links Tab -->
+                    <div class="tab-pane fade" id="instagram" role="tabpanel">
+                        <div class="instagram-links">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Instagram Links</h5>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLinkModal">
+                                    <i class="fas fa-plus me-2"></i>Add Instagram Link
+                                </button>
+                            </div>
+                            
+                            <div id="instagramLinksList">
+                                <!-- Instagram links will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload Images Tab -->
+                    <div class="tab-pane fade" id="upload" role="tabpanel">
+                        <div class="upload-section">
+                            <h5 class="mb-3">Upload New Images</h5>
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h6>Drag & Drop Images Here</h6>
+                                <p class="text-muted">or click to browse files</p>
+                                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                                <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-folder-open me-2"></i>Choose Files
+                                </button>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Image Category</label>
+                                    <select class="form-select">
+                                        <option>Select Category</option>
+                                        <option>Hero Images</option>
+                                        <option>Product Photos</option>
+                                        <option>Lifestyle Shots</option>
+                                        <option>Bridal Collection</option>
+                                        <option>Behind the Scenes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Image Title</label>
+                                    <input type="text" class="form-control" placeholder="Enter image title">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter image description"></textarea>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button class="btn btn-success">
+                                    <i class="fas fa-upload me-2"></i>Upload Images
+                                </button>
+                                <button class="btn btn-outline-secondary ms-2">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Instagram Link Modal -->
+    <div class="modal fade" id="addLinkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Instagram Link</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addLinkForm">
+                        <div class="mb-3">
+                            <label class="form-label">Instagram URL</label>
+                            <input type="url" class="form-control" placeholder="https://www.instagram.com/p/..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Link Title</label>
+                            <input type="text" class="form-control" placeholder="Enter link title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select">
+                                <option>Select Category</option>
+                                <option>New Collection</option>
+                                <option>Behind the Scenes</option>
+                                <option>Customer Features</option>
+                                <option>Bridal Showcase</option>
+                                <option>Lifestyle</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Image Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="previewImage" src="" alt="" class="img-fluid rounded" style="max-height: 500px;">
+                    <div class="mt-3">
+                        <h6 id="previewTitle"></h6>
+                        <p id="previewDescription" class="text-muted"></p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                            <button class="btn btn-success btn-sm">
+                                <i class="fas fa-download me-1"></i>Download
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash me-1"></i>Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample gallery data
+        const galleryImages = [
+            {
+                id: 1,
+                title: 'Royal Lehenga Collection',
+                category: 'hero',
+                description: 'Beautiful traditional lehenga with intricate embroidery',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-15',
+                size: '2.5 MB'
+            },
+            {
+                id: 2,
+                title: 'Bridal Wear Showcase',
+                category: 'bridal',
+                description: 'Luxurious bridal lehenga with heavy work',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-14',
+                size: '3.2 MB'
+            },
+            {
+                id: 3,
+                title: 'Casual Ethnic Wear',
+                category: 'lifestyle',
+                description: 'Comfortable daily wear collection',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-13',
+                size: '1.8 MB'
+            },
+            {
+                id: 4,
+                title: 'Designer Saree Collection',
+                category: 'product',
+                description: 'Elegant silk saree with modern design',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-12',
+                size: '2.1 MB'
+            },
+            {
+                id: 5,
+                title: 'Party Wear Lehenga',
+                category: 'lifestyle',
+                description: 'Perfect for parties and celebrations',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-11',
+                size: '2.8 MB'
+            },
+            {
+                id: 6,
+                title: 'Traditional Saree',
+                category: 'product',
+                description: 'Classic traditional saree for special occasions',
+                url: 'https://via.placeholder.com/400x300',
+                uploadDate: '2025-01-10',
+                size: '1.9 MB'
+            }
+        ];
+
+        // Sample Instagram links
+        const instagramLinks = [
+            {
+                id: 1,
+                title: 'New Collection Launch',
+                url: 'https://www.instagram.com/p/ABC123/',
+                description: 'Showcasing our latest ethnic wear collection',
+                category: 'New Collection',
+                date: '2025-01-15'
+            },
+            {
+                id: 2,
+                title: 'Behind the Scenes',
+                url: 'https://www.instagram.com/p/DEF456/',
+                description: 'Making of our beautiful designs',
+                category: 'Behind the Scenes',
+                date: '2025-01-14'
+            },
+            {
+                id: 3,
+                title: 'Customer Feature',
+                url: 'https://www.instagram.com/p/GHI789/',
+                description: 'Happy customer wearing our lehenga',
+                category: 'Customer Features',
+                date: '2025-01-13'
+            }
+        ];
+
+        // Render gallery images
+        function renderGallery(images = galleryImages) {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+
+            images.forEach(image => {
+                const categoryClass = `category-${image.category}`;
+                const categoryText = image.category.charAt(0).toUpperCase() + image.category.slice(1);
+
+                const galleryItem = `
+                    <div class="gallery-item" onclick="previewImage(${image.id})">
+                        <div class="gallery-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="gallery-overlay">
+                            <div class="gallery-actions">
+                                <button class="btn-action btn-view" onclick="event.stopPropagation(); previewImage(${image.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-action btn-edit" onclick="event.stopPropagation(); editImage(${image.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action btn-download" onclick="event.stopPropagation(); downloadImage(${image.id})">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteImage(${image.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <div class="gallery-title">${image.title}</div>
+                            <div class="gallery-meta">
+                                <span class="gallery-category ${categoryClass}">${categoryText}</span>
+                                <small>${new Date(image.uploadDate).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += galleryItem;
+            });
+        }
+
+        // Render Instagram links
+        function renderInstagramLinks(links = instagramLinks) {
+            const container = document.getElementById('instagramLinksList');
+            container.innerHTML = '';
+
+            links.forEach(link => {
+                const linkItem = `
+                    <div class="link-item">
+                        <div class="link-info">
+                            <div class="link-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="link-details">
+                                <h6>${link.title}</h6>
+                                <small>${link.description}</small>
+                                <br>
+                                <small class="text-muted">${link.url}</small>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editLink(${link.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" onclick="openLink('${link.url}')">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteLink(${link.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += linkItem;
+            });
+        }
+
+        // Preview image
+        function previewImage(imageId) {
+            const image = galleryImages.find(img => img.id === imageId);
+            if (!image) return;
+
+            document.getElementById('previewImage').src = image.url;
+            document.getElementById('previewTitle').textContent = image.title;
+            document.getElementById('previewDescription').textContent = image.description;
+            
+            new bootstrap.Modal(document.getElementById('imagePreviewModal')).show();
+        }
+
+        // Edit image
+        function editImage(imageId) {
+            const image = galleryImages.find(img => img.id === imageId);
+            if (!image) return;
+
+            const newTitle = prompt('Edit image title:', image.title);
+            if (newTitle && newTitle !== image.title) {
+                image.title = newTitle;
+                renderGallery();
+                alert('Image updated successfully!');
+            }
+        }
+
+        // Download image
+        function downloadImage(imageId) {
+            const image = galleryImages.find(img => img.id === imageId);
+            if (!image) return;
+
+            alert(`Downloading: ${image.title}`);
+        }
+
+        // Delete image
+        function deleteImage(imageId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                const index = galleryImages.findIndex(img => img.id === imageId);
+                galleryImages.splice(index, 1);
+                renderGallery();
+                alert('Image deleted successfully!');
+            }
+        }
+
+        // Edit Instagram link
+        function editLink(linkId) {
+            const link = instagramLinks.find(l => l.id === linkId);
+            if (!link) return;
+
+            const newTitle = prompt('Edit link title:', link.title);
+            if (newTitle && newTitle !== link.title) {
+                link.title = newTitle;
+                renderInstagramLinks();
+                alert('Link updated successfully!');
+            }
+        }
+
+        // Open Instagram link
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        // Delete Instagram link
+        function deleteLink(linkId) {
+            if (confirm('Are you sure you want to delete this link?')) {
+                const index = instagramLinks.findIndex(l => l.id === linkId);
+                instagramLinks.splice(index, 1);
+                renderInstagramLinks();
+                alert('Link deleted successfully!');
+            }
+        }
+
+        // Change layout
+        function changeLayout(layout) {
+            document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const grid = document.getElementById('galleryGrid');
+            grid.className = `gallery-grid layout-${layout}`;
+        }
+
+        // Refresh gallery
+        function refreshGallery() {
+            renderGallery();
+            alert('Gallery refreshed!');
+        }
+
+        // File upload handling
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                alert(`${files.length} file(s) selected for upload`);
+            }
+        });
+
+        // Drag and drop handling
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                alert(`${files.length} file(s) dropped for upload`);
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGallery();
+            renderInstagramLinks();
+        });
+    </script>
+</body>
+</html>

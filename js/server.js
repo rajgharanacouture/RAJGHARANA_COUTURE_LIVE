@@ -144,8 +144,6 @@ const cartCount = document.getElementById('cartCount');
             }
         }
 
-        let emptyCart = document.getElementById('emptyCart');
-
         async function loadCarts() {
 
             if(!currentUser){
@@ -158,7 +156,7 @@ const cartCount = document.getElementById('cartCount');
             if (cartResponse.error) { console.error(cartResponse.error); return; }
 
             console.log('loadCarts called' , cartData);
-
+            let emptyCart = document.getElementById('emptyCart');
             if(cartData && cartData.length > 0){
                 cartCount.style.display = 'unset';
                 if(emptyCart) emptyCart.style.display = 'none';
@@ -187,7 +185,7 @@ const cartCount = document.getElementById('cartCount');
                 productIds.push(cart.productId);
             });
             
-            let { data, error } = await client.from('Products').select('*').in('id', productIds)   
+            let { data, error } = await client.from('Products').select('*').in('id', productIds);
 
             if (error) {
                 console.error('Error fetching products:', error)
@@ -436,7 +434,7 @@ const cartCount = document.getElementById('cartCount');
         if(checkSignIn()){
             await client
                 .from("Order")
-                .insert([ {user_id : currentUser.user.id} ]);
+                .insert([ {user_id : currentUser.user.id, delivery_address : currentUser.user.user_metadata.address} ]);
 
             const orderResponse = await client.from("Order").select("*").order("created_at", { ascending: false });
 

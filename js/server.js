@@ -4,11 +4,10 @@
 const cartCount = document.getElementById('cartCount');
     window.cartData = [];
     console.log('server js loaded ');
-    const supabaseUrl = "https://dklcbcbgpdrqsqupaaeb.supabase.co";
+    const supabaseUrl = "https://jxyqxptlpxtpkazwccwh.supabase.co";
 
 
-    //const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbGNiY2JncGRycXNxdXBhYWViIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzI1ODk1MiwiZXhwIjoyMDcyODM0OTUyfQ.EN8lHW9BBf1qSNXw9fFnFU1rWgIoOsWqltks57qp-pY"; // apna anon key lagao
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbGNiY2JncGRycXNxdXBhYWViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNTg5NTIsImV4cCI6MjA3MjgzNDk1Mn0.JwMYyY4hfkRctnE2CBF_R_88GQSX58mE4cp25MvDODY"; // apna anon key lagao
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4eXF4cHRscHh0cGthendjY3doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2NzU1MTUsImV4cCI6MjA3NjI1MTUxNX0.JYz18M7sbIwNlvZkmZVLD6Tmqhd3perFtqmEeUB7Fx8"; 
     
     var client = supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -27,7 +26,8 @@ const cartCount = document.getElementById('cartCount');
 
         async function loadProducts() {
             console.log('loadProducts called');
-            const { data, error } = await client.from("Products").select("*");
+            const { data, error } = await client.from("Products").select("*").neq("created_at", new Date().toISOString());
+            
 
             if (error) {
                 console.error(error);
@@ -61,7 +61,7 @@ const cartCount = document.getElementById('cartCount');
 
             listDiv[0].innerHTML = products;
 
-            console.log('data ',data);
+            console.log('product data ',data);
             //console.log('listDiv.innerHTML ',listDiv[0].innerHTML);
         }
 
@@ -150,7 +150,7 @@ const cartCount = document.getElementById('cartCount');
                 return;
             }
 
-            const cartResponse = await client.from("Cart").select("*").order("created_at", { ascending: false });
+            const cartResponse = await client.from("Cart").select("*").order("created_at", { ascending: false }).neq("created_at", new Date().toISOString());
             cartData = cartResponse.data;
             
             if (cartResponse.error) { console.error(cartResponse.error); return; }
@@ -185,7 +185,7 @@ const cartCount = document.getElementById('cartCount');
                 productIds.push(cart.productId);
             });
             
-            let { data, error } = await client.from('Products').select('*').in('id', productIds);
+            let { data, error } = await client.from('Products').select('*').in('id', productIds).neq("created_at", new Date().toISOString());
 
             if (error) {
                 console.error('Error fetching products:', error)
@@ -279,7 +279,7 @@ const cartCount = document.getElementById('cartCount');
             try{
                 console.log('removeFromCart called',cartId);
                 if(checkSignIn()){
-                    console.log(await client.from("Cart").delete().eq("cart_id",cartId));
+                    await client.from("Cart").delete().eq("cart_id",cartId);
                     loadCarts();
                     showAlert("Product successfully removed!");
                 }
@@ -436,7 +436,7 @@ const cartCount = document.getElementById('cartCount');
                 .from("Order")
                 .insert([ {user_id : currentUser.user.id, delivery_address : currentUser.user.user_metadata.address} ]);
 
-            const orderResponse = await client.from("Order").select("*").order("created_at", { ascending: false });
+            const orderResponse = await client.from("Order").select("*").neq("created_at", new Date().toISOString()).order("created_at", { ascending: false });
 
             if(orderResponse.error){
                 if(orderResponse.error.message == 'JWT expired'){
@@ -456,7 +456,7 @@ const cartCount = document.getElementById('cartCount');
                     productIds.push(cart.productId);
                 });
                 
-            let productResponse = await client.from('Products').select('*').in('id', productIds);
+            let productResponse = await client.from('Products').select('*').in('id', productIds).neq("created_at", new Date().toISOString());
 
             //data = JSON.parse( JSON.stringify(data));
                 for (let index = 0; index < productResponse.data.length; index++) {

@@ -446,7 +446,7 @@ const cartCount = document.getElementById('cartCount');
                 }
             }
 
-            showAlert("Order Placed successfully");
+            showAlert("Thank you for your order! Our team will contact you shortly to confirm details.");
 
             console.log('orderResponse ', orderResponse);
             let orderId = orderResponse.data[0].order_id;

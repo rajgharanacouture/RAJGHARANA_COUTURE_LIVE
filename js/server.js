@@ -466,6 +466,7 @@ const cartCount = document.getElementById('cartCount');
                         if(dataElement.id == cartElement.productId){
                             cartData[index].price = dataElement.productprice;
                             cartData[index].productname = dataElement.productname;
+                            cartData[index].productimage = dataElement.productimage;
                         }
                     }
                 }
@@ -475,7 +476,7 @@ const cartCount = document.getElementById('cartCount');
             cartData.forEach( cart=> {
                 orderLineItems.push( { product_id: cart.productId, 
                     quantity : cart.quantity, user_id : currentUser.user.id, price : cart.price,
-                    product_name: cart.productname, order_id : orderId  });
+                    product_name: cart.productname, order_id : orderId, product_image : cart.productimage  });
             });
 
             let Order_Line_ItemResponse = await client

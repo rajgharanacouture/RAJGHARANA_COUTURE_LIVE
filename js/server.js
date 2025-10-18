@@ -482,7 +482,7 @@ const cartCount = document.getElementById('cartCount');
             let Order_Line_ItemResponse = await client
                     .from("Order_Line_Item")
                     .insert( orderLineItems );
-
+            console.log('cartData ',cartData);
             console.log(' Order_Line_ItemResponse called ',Order_Line_ItemResponse);        
 
             let cartIds = [];

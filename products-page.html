@@ -597,6 +597,9 @@
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         const paramKey = (new URLSearchParams(window.location.search)).get('key');
+        if(!paramKey){
+            window.location.href = "index.html";
+        }
         // Add query params to all sidebar links
         document.querySelectorAll('.sidebar-menu a').forEach(link => {
             const baseUrl = link.getAttribute('href'); // remove any old params if exist

@@ -593,6 +593,9 @@
         const supabaseUrl = "https://jxyqxptlpxtpkazwccwh.supabase.co";
         
         const supabaseKey = (new URLSearchParams(window.location.search)).get('key');
+        if(!supabaseKey){
+            window.location.href = "index.html";
+        }
 
         // Add query params to all sidebar links
         document.querySelectorAll('.sidebar-menu a').forEach(link => {

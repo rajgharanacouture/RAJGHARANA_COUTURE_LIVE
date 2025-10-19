@@ -501,10 +501,6 @@
             <div class="subtitle">Admin Dashboard</div>
         </div>
         <nav class="sidebar-menu">
-            <a href="admin-panel.html" class="menu-item">
-                <i class="fas fa-tachometer-alt"></i>
-                Dashboard
-            </a>
             <a href="products-page.html" class="menu-item">
                 <i class="fas fa-box"></i>
                 Products
@@ -517,21 +513,9 @@
                 <i class="fas fa-users"></i>
                 Customers
             </a>
-            <a href="#" class="menu-item">
+            <a href="gallery-page.html" class="menu-item">
                 <i class="fas fa-images"></i>
                 Gallery
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-chart-bar"></i>
-                Analytics
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-cog"></i>
-                Settings
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
             </a>
         </nav>
     </div>
@@ -600,6 +584,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="editOrder();" >Update Order</button>
                 </div>
             </div>
         </div>
@@ -610,35 +595,20 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = "https://jxyqxptlpxtpkazwccwh.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4eXF4cHRscHh0cGthendjY3doIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDY3NTUxNSwiZXhwIjoyMDc2MjUxNTE1fQ.52rMfRDVcXbeX3hYtxfdqpOmQp6gTSs9es5v_-sewZI";
+        
+        const supabaseKey = (new URLSearchParams(window.location.search)).get('key');
         var client = supabase.createClient(supabaseUrl, supabaseKey);
 
         // Sample orders data
-        let orders = [
-            {
-                id: 'RG2025-001',
-                customer: { name: 'Priya Sharma', email: 'priya@email.com', phone: '+91 98765 43210' },
-                date: '2025-01-15',
-                amount: 15000,
-                status: 'processing',
-                payment: 'Paid',
-                items: [
-                    { name: 'Royal Lehenga Set', price: 15000, quantity: 1, image: 'fas fa-image' }
-                ],
-                shipping: {
-                    address: '123, Civil Lines, Bikaner, Rajasthan 334001',
-                    method: 'Standard Delivery'
-                }
-            }
-        ];
+        let orders = [];
 
         let userMap;
 
         // Render orders table
         async function renderOrders() {
 
-            const orderResponse = await client.from("Order").select("*").neq("created_at", new Date().toISOString());
-            const productResponse = await client.from("Products").select("*").neq("created_at", new Date().toISOString());
+            const orderResponse = await client.from("Order").select("*");
+            const productResponse = await client.from("Products").select("*");
 
             console.log('Orders ',orderResponse);
             let orderIds = [];
@@ -716,10 +686,12 @@
                 `;
                 tbody.innerHTML += row;
             });
+            document.getElementById('totalOrders').innerText = 'Total Orders ' + orders.length;
         }
-
+        let editOrderId;
         // View order details
         function viewOrder(orderId) {
+            editOrderId = orderId;
             const order = orders.find(o => o.order_id === orderId);
             //order.customer = userMap[order.user_id].user_metadata;
             //order.items = 
@@ -734,7 +706,9 @@
                             <h6>Order Information</h6>
                             <p><strong>Order ID:</strong> ${order.order_id}</p>
                             <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString()}</p>
-                            <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span></p>
+                            <p><strong><label>Status:</label></strong>
+                            <input id="orderStatus" value="${order.status.charAt(0).toUpperCase() + order.status.slice(1)}">
+                            </p>
                         </div>
                         <div class="col-md-6">
                             <h6>Customer Information</h6>
@@ -762,7 +736,8 @@
 
                 <div class="mt-3">
                     <h6>Shipping Information</h6>
-                    <p><strong>Address:</strong> ${order.user.address}</p>
+                    <p><strong>Address:</strong>
+                            <textarea row="3" id="orderDeliveryAddress">${order.delivery_address}</textarea></p>
                 </div>
 
                 <div class="mt-3 text-end">
@@ -775,17 +750,25 @@
         }
 
         // Edit order status
-        /*function editOrder(orderId) {
-            const order = orders.find(o => o.order_id === orderId);
-            if (!order) return;
-
-            const newStatus = prompt('Update order status:', order.status);
-            if (newStatus && newStatus !== order.status) {
-                order.status = newStatus.toLowerCase();
-                renderOrders();
-                alert('Order status updated successfully!');
+        async function editOrder() {
+            let order = orders.find(o => o.order_id === editOrderId);
+            const orderStatus = document.getElementById('orderStatus').value.trim();
+            const orderDeliveryAddress = document.getElementById('orderDeliveryAddress').value.trim();
+            if (!orderStatus || !orderDeliveryAddress) {
+                alert("Please enter order status or delivery address!");
+                return;
             }
-        }*/
+
+            const { data, error } = await client
+                .from('Order')
+                .update([
+                {
+                    status: orderStatus,
+                    delivery_address: orderDeliveryAddress,
+                }]).eq("order_id",editOrderId);;
+            bootstrap.Modal.getInstance(document.getElementById('orderDetailsModal')).hide();
+            renderOrders();
+        }
 
         // Mobile menu toggle
         document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
@@ -807,7 +790,6 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             renderOrders();
-            document.getElementById('totalOrders').innerText = 'Total Orders ' + orders.length;
         });
     </script>
 </body>

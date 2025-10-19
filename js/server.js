@@ -67,6 +67,28 @@ const cartCount = document.getElementById('cartCount');
 
         loadProducts();
         loadCarts();
+        async function loadInstagramLinks(){
+            const instagramLinksResponse = await client.from("Instagram_Link").select("*").neq("created_at", new Date().toISOString());
+            let instagramLink = document.getElementById('insta-shop');
+            console.log('instagramLink called',instagramLink);
+            let instagramLinkBody = '';
+
+            instagramLinksResponse.data.forEach(link => {
+            instagramLinkBody += `<div class="card">
+                            <div class="card-body">
+                                <blockquote class="instagram-media"
+                                    data-instgrm-permalink="${link.url}"
+                                    data-instgrm-version="14"
+                                    >
+                                </blockquote>
+                            </div>
+                        </div>`;
+            });
+            instagramLink.innerHTML = instagramLinkBody;
+            if (window.instgrm) {
+                window.instgrm.Embeds.process();
+            }
+        }
 
         async function checkSignIn(){
 

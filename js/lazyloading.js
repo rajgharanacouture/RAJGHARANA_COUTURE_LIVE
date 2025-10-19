@@ -239,7 +239,7 @@
             newActiveButton.classList.add('active');
         }
 
-        document.querySelector('.home-image').src = `https://dklcbcbgpdrqsqupaaeb.supabase.co/storage/v1/object/public/Static_Images/Home-bg${currentIndex}.jpg`;
+        document.querySelector('.home-image').src = `https://raw.githubusercontent.com/rajgharanacouture/website-assets/main/static_images/store-image-${currentIndex}.jpg`;
         
     }
     const carouselElement = document.getElementById('carouselExample');
@@ -311,5 +311,6 @@ function viewProduct(productName, productImage, productPrice, productDescription
     });*/
 }
 
+loadInstagramLinks();
 
 

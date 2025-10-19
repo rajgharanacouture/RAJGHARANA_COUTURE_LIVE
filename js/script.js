@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize any carousels if needed
-    initializeCarousels();
+    //initializeCarousels();
     
     // Lazy loading for images
     initializeLazyLoading();    
@@ -119,22 +119,22 @@ function showAlert(message) {
 }
 
 // Initialize carousels function
-function initializeCarousels() {
+/*function initializeCarousels() {
     // This function can be used to initialize any carousel functionality
     // Currently not needed as the design doesn't use carousels
-    /*console.log('Carousel initialization ready');
+    console.log('Carousel initialization ready');
     
     //setInterval(autoSlide, 4000);
 
     function showSlide(index) {
-      slides.src = `images/Home-bg${index}.jpg`;
+      slides.src = `images/store-image-${index}.jpg`;
     }
 
     function autoSlide() {
       currentIndex = (currentIndex + 1) % slideCount;
       showSlide(currentIndex);
-    }*/
-}
+    }
+}*/
 
 
 

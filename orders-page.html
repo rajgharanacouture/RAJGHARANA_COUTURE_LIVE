@@ -509,10 +509,6 @@
                 <i class="fas fa-shopping-cart"></i>
                 Orders
             </a>
-            <a href="customers-page.html" class="menu-item">
-                <i class="fas fa-users"></i>
-                Customers
-            </a>
             <a href="gallery-page.html" class="menu-item">
                 <i class="fas fa-images"></i>
                 Gallery
@@ -597,6 +593,13 @@
         const supabaseUrl = "https://jxyqxptlpxtpkazwccwh.supabase.co";
         
         const supabaseKey = (new URLSearchParams(window.location.search)).get('key');
+
+        // Add query params to all sidebar links
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            const baseUrl = link.getAttribute('href'); // remove any old params if exist
+            link.href = `${baseUrl}?key=${supabaseKey}`;
+        });
+
         var client = supabase.createClient(supabaseUrl, supabaseKey);
 
         // Sample orders data

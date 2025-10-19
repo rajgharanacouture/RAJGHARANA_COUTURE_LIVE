@@ -441,10 +441,6 @@
                 <i class="fas fa-shopping-cart"></i>
                 Orders
             </a>
-            <a href="customers-page.html" class="menu-item">
-                <i class="fas fa-users"></i>
-                Customers
-            </a>
             <a href="gallery-page.html" class="menu-item">
                 <i class="fas fa-images"></i>
                 Gallery
@@ -599,6 +595,13 @@
         const supabaseUrl = "https://jxyqxptlpxtpkazwccwh.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4eXF4cHRscHh0cGthendjY3doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2NzU1MTUsImV4cCI6MjA3NjI1MTUxNX0.JYz18M7sbIwNlvZkmZVLD6Tmqhd3perFtqmEeUB7Fx8"; 
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const paramKey = (new URLSearchParams(window.location.search)).get('key');
+        // Add query params to all sidebar links
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            const baseUrl = link.getAttribute('href'); // remove any old params if exist
+            link.href = `${baseUrl}?key=${paramKey}`;
+        });
 
         // Render products
         async function renderProducts() {

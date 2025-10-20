@@ -603,7 +603,7 @@
             link.href = `${baseUrl}?key=${supabaseKey}`;
         });
 
-        var client = supabase.createClient(supabaseUrl, supabaseKey);
+        var client = supabase.createClient(supabaseUrl, supabaseKey, { auth: { storageKey: "project2-auth" }});
 
         // Sample orders data
         let orders = [];

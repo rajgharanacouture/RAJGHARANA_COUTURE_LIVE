@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.rajgharanacouture.com/sitemap.xml
